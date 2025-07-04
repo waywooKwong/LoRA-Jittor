@@ -10,30 +10,29 @@ import copy
 import math
 
 import jittor as jt
-from jittor import nn
-from jittor.nn import CrossEntropyLoss, MSELoss
-# import jittor.nn.functional as F
-from jittor.optim import Optimizer, LambdaLR
-# jittor 中Parameter参数每 
-# from jittor.nn.parameter import Parameter
+from jittor import nn, Module
 
 import loralib as lora
-import numpy as np
 
 
 def gelu(x):
-    return 0.5 * x * (1 + jt.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * jt.pow(x, 3))))
+    tanh = nn.Tanh()
+    pow = jt.pow()
+    return 0.5 * x * (1 + tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * pow(x, 3))))
 
 
 def gelu_fast(x):
-    return 0.5 * x * (1.0 + jt.tanh(x * 0.7978845608 * (1.0 + 0.044715 * x * x)))
+    tanh = nn.Tanh()
+    return 0.5 * x * (1.0 + tanh(x * 0.7978845608 * (1.0 + 0.044715 * x * x)))
 
 
 def gelu_new(x):
     """ Implementation of the gelu activation function currently in Google Bert repo (identical to OpenAI GPT).
         Also see https://arxiv.org/abs/1606.08415
     """
-    return 0.5 * x * (1.0 + jt.tanh(math.sqrt(2.0 / math.pi) * (x + 0.044715 * jt.pow(x, 3.0))))
+    tanh = nn.Tanh()
+    pow = jt.pow()
+    return 0.5 * x * (1.0 + tanh(math.sqrt(2.0 / math.pi) * (x + 0.044715 * pow(x, 3.0))))
 
 
 def swish(x):
@@ -47,21 +46,18 @@ def _gelu_python(x):
         This is now written in C in jt.nn.functional
         Also see https://arxiv.org/abs/1606.08415
     """
-    return x * 0.5 * (1.0 + jt.erf(x / math.sqrt(2.0)))
+    return x * 0.5 * (1.0 + (x / math.sqrt(2.0)).erf())
 
 
 class LayerNorm(nn.Module):
     def __init__(self, hidden_size, eps=1e-12):
         """Construct a layernorm module in the TF style (epsilon inside the square root)."""
         super(LayerNorm, self).__init__()
-        # jittor 中 Parameter 参数没意义
-        # self.weight = nn.Parameter(jt.ones(hidden_size))
-        # self.bias = nn.Parameter(jt.zeros(hidden_size))
         self.weight = jt.ones(hidden_size)
         self.bias = jt.zeros(hidden_size)
         self.variance_epsilon = eps
 
-    def forward(self, x):
+    def execute(self, x):
         u = x.mean(-1, keepdim=True)
         s = (x - u).pow(2).mean(-1, keepdim=True)
         x = (x - u) / jt.sqrt(s + self.variance_epsilon)
@@ -72,16 +68,17 @@ class Conv1D(nn.Module):
     def __init__(self, nf, nx):
         super(Conv1D, self).__init__()
         self.nf = nf
-        w = jt.empty(nx, nf)
-        # 带 std 参数的初始化 init.gauss_
-        # normal 初始化 kaiming_normal_ 不带 std
-        nn.init.kaiming_normal_(w)
-        self.weight = w
+        
+        # w = jt.empty(nx, nf)
+        # self.weight = w
+        # Debug: 
+        self.weight = jt.init.gauss((nx, nf), std=0.02)
+
         self.bias = jt.zeros(nf)
 
-    def forward(self, x):
+    def execute(self, x):
         size_out = x.size()[:-1] + (self.nf,)
-        x = jt.addmm(self.bias, x.view(-1, x.size(-1)), self.weight)
+        x = self.bias, x.view(-1, x.size(-1)), self.weight
         x = x.view(*size_out)
         return x
 
@@ -94,7 +91,6 @@ class Attention(nn.Module):
         
         assert n_state % config.n_head == 0
         self.register_buffer("bias", jt.tril(jt.ones(n_ctx, n_ctx)).view(1, 1, n_ctx, n_ctx))
-        
         self.n_head = config.n_head
         self.split_size = n_state
         self.scale = scale
@@ -124,7 +120,7 @@ class Attention(nn.Module):
         # w : (batch, head, q_seq_length, kv_seq_length)
         # v : (batch, head, kv_seq_length, head_features)
         if len_kv is not None:
-            _len = jt.arange(k.size(-1), device=k.device)
+            _len = jt.arange(k.size(-1))
             _input_msk =  _len[None, :] >= (len_kv)[:, None]
             w = w.masked_fill(_input_msk.unsqueeze(1).unsqueeze(2), -1.0e10) 
 
@@ -144,7 +140,7 @@ class Attention(nn.Module):
         else:
             return x.permute(0, 2, 1, 3).contiguous()  # (batch, head, seq_length, head_features)
 
-    def forward(self, x, history=None, layer_past=None, len_past=None):
+    def execute(self, x, history=None, layer_past=None, len_past=None):
         hidden_states = x
 
         x = self.c_attn(x)
@@ -170,7 +166,7 @@ class Attention(nn.Module):
                 key_seq = key.shape[-1]
                 assert key_seq == 1
 
-                _batch = jt.arange(0, key.shape[0], dtype=jt.long, device=key.device)
+                _batch = jt.arange(0, key.shape[0])
 
                 past_key, past_value = layer_past[0], layer_past[1]
 
@@ -197,7 +193,7 @@ class MLP(nn.Module):
         self.c_proj = Conv1D(nx, n_state)
         self.act = gelu
 
-    def forward(self, x):
+    def execute(self, x):
         h = self.act(self.c_fc(x))
         h2 = self.c_proj(h)
         return h2
@@ -212,7 +208,7 @@ class Block(nn.Module):
         self.ln_2 = LayerNorm(nx, eps=config.layer_norm_epsilon)
         self.mlp = MLP(4 * nx, config)
 
-    def forward(self, x, layer_past=None, len_past=None):
+    def execute(self, x, layer_past=None, len_past=None):
         a, present = self.attn(self.ln_1(x), layer_past=layer_past, len_past=len_past)
         x = x + a
         m = self.mlp(self.ln_2(x))
@@ -236,7 +232,7 @@ class GPT2Model(nn.Module):
         self.config = config
 
 
-    def forward(
+    def execute(
         self, 
         input_ids, 
         position_ids=None, 
@@ -254,7 +250,6 @@ class GPT2Model(nn.Module):
         if position_ids is None and len_past is None:
             position_ids = jt.arange(
                 past_length, input_ids.size(-1) + past_length, 
-                dtype=jt.long, device=input_ids.device
             )
             position_ids = position_ids.unsqueeze(0).expand_as(input_ids)
         elif len_past is not None:
@@ -294,7 +289,7 @@ class GPT2LMHead(nn.Module):
         self.decoder = nn.Linear(embed_shape[1], embed_shape[0], bias=False)
         self.decoder.weight = model_embeddings_weights  # Tied weights
 
-    def forward(self, hidden_state):
+    def execute(self, hidden_state):
         # Truncated Language modeling logits (we remove the last token)
         # h_trunc = h[:, :-1].contiguous().view(-1, self.n_embd)
         lm_logits = self.decoder(hidden_state)
@@ -345,7 +340,7 @@ class GPT2LMModel(nn.Module):
         """ Make sure we are sharing the embeddings"""
         self.lm_head.set_embeddings_weights(self.transformer.wte.weight)
 
-    def forward(
+    def execute(
         self, 
         input_ids, 
         lm_labels=None, 
@@ -367,8 +362,8 @@ class GPT2LMModel(nn.Module):
                 _pred_token = jt.argmax(lm_logits, dim=-1)
                 _hit = (_pred_token == lm_labels) * lm_mask
 
-                _t1_acc = jt.zeros(_batch, dtype=jt.float, device=input_ids.device)
-                _all_acc = jt.zeros(_batch, dtype=jt.float, device=input_ids.device)
+                _t1_acc = jt.zeros(_batch)
+                _all_acc = jt.zeros(_batch)
                 
                 for _b in range(0, _batch):
                     for _i in range(0, _len):
@@ -391,7 +386,7 @@ class GPT2LMModel(nn.Module):
                 #_all_acc = _all_acc * 1.0 / _batch
 
             if label_smooth > 0.0001:
-                logprobs = jt.nn.functional.log_softmax(lm_logits.view(-1, lm_logits.size(-1)), dim=-1)
+                logprobs = nn.log_softmax(lm_logits.view(-1, lm_logits.size(-1)), dim=-1)
                 nll_loss = -logprobs.gather(dim=-1, index=lm_labels.view(-1).unsqueeze(1))
                 nll_loss = nll_loss.squeeze(1)
                 smooth_loss = -logprobs.mean(dim=-1)
@@ -402,7 +397,7 @@ class GPT2LMModel(nn.Module):
                 loss = loss_fct(lm_logits.view(-1, lm_logits.size(-1)), lm_labels.view(-1)).view(_batch, _len)
 
             if lm_mask is None:
-                lm_mask = jt.ones(loss.shape, dtype=loss.dtype, device=loss.device)
+                lm_mask = jt.ones(loss.shape)
             loss = loss * lm_mask 
 
             loss = loss.sum() / (lm_mask.sum() + 0.0001)
@@ -415,15 +410,12 @@ class GPT2LMModel(nn.Module):
            
     def _init_weights(self, module):
         if isinstance(module, (nn.Linear, nn.Embedding)):
-            # module.weight.data.normal_(mean=0.0, std=0.02)
-            # nn.init.kaiming_normal_(module.weight.data)
-            # Debug: 不支持 normal_ 正则初始化
-            nn.init.gauss(module.weight.data.shape, std=0.02)
+            jt.init.gauss_(jt.Var(module.weight), mean=0.0, std=0.02)
         elif isinstance(module, nn.LayerNorm):
-            module.bias.data.zero_()
-            module.weight.data.fill_(1.0)
+            jt.init.zero_(jt.Var(module.bias))
+            jt.init.one_(jt.Var(module.weight))
         if isinstance(module, nn.Linear) and module.bias is not None:
-            jt.init.zero_(jt.var(module.bias.data))
+            jt.init.zero_(jt.Var(module.bias))
 
     def load_weight(self, state_dict):
         if 'model_state_dict' in state_dict:
@@ -455,12 +447,5 @@ class GPT2LMModel(nn.Module):
             if n not in state_dict:
                 state_dict[n] = p
 
-        
-        # print("==== pytorch keys ====")
-        # print(state_dict.keys())
-
-        # print("==== jittor param keys ====")
-        # print(self.parameters())
-        # Debug: TypeError: Module.load_state_dict() got an unexpected keyword argument 'strict'
         self.transformer.load_state_dict(state_dict)
         self.set_tied()

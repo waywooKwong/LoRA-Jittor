@@ -32,7 +32,7 @@ from gpu import (
 from exp_utils import create_exp_dir
 
 from data_utils import FT_Dataset 
-from model import GPT2Config, GPT2LMModel
+from LoRA.examples.NLG.src_jittor.model_origin import GPT2Config, GPT2LMModel
 
 
 parser = argparse.ArgumentParser(description='PyTorch GPT2 beam decoding')

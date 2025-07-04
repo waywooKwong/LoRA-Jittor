@@ -205,6 +205,9 @@ class FT_Dataset(Dataset):
     def __init__(self, ft_file, batch_size, max_seq_length, 
                  max_eval_length=0, joint_lm=False, prefix_len=0, infix_len=0, 
                  prefix_cursor=1000000, infix_cursor=2000000):
+        # Error: AttributeError: 'FT_Dataset' object has no attribute '_disable_workers'
+        # Debug: 适配 Jittor DataLoader
+        super().__init__()
         self.ft_file = ft_file
         self.ft_samples = self.read_ft_file(ft_file)
         self.batch_size = batch_size
@@ -249,19 +252,21 @@ class FT_Dataset(Dataset):
         _msk, _ = padding_tokens(_msk, self.max_seq_length, 0.0, 1)
         
         output = {}
-        output["id"] = jt.tensor(item, dtype=jt.long)
+        # Error: Var not support para'dtype'
+        # remove dtype or jt.int64(item)
+        output["id"] = jt.Var(item)
         
         _query, _query_len = padding_tokens(
             conditions, self.max_seq_length, 0, -1, 
             max_context_length = self.max_seq_length - self.max_eval_length
         )
-        output["query"] = jt.tensor(_query, dtype=jt.long)
-        output["query_len"] = jt.tensor(_query_len, dtype=jt.long)
+        output["query"] = jt.Var(_query)
+        output["query_len"] = jt.Var(_query_len)
 
-        output["input"] = jt.tensor(_input, dtype=jt.long) 
-        output["target"] = jt.tensor(_target, dtype=jt.long) 
+        output["input"] = jt.Var(_input) 
+        output["target"] = jt.Var(_target) 
 
-        output["mask"] = jt.tensor(_msk, dtype=jt.float)
+        output["mask"] = jt.Var(_msk)
         return output
 
     def read_ft_file(self, ft_file):
