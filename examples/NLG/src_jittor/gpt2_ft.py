@@ -156,6 +156,8 @@ def evaluate(model, valid_loader, args):
             _msk = data['mask'].to(args.device)
 
             _lm_logits, _loss = model(_input, lm_labels=_target, lm_mask=_msk) 
+            # Debug 0705
+            jt.sync_all(True)
             loss = _loss.mean() 
             
             avg_lm_loss.update(loss.item())
@@ -165,6 +167,10 @@ def evaluate(model, valid_loader, args):
 
         total_time = time.time() - start_time
         print('average loss', avg_lm_loss.avg)
+
+        # del _input, _target, _msk, _lm_logits, _loss
+        # jt.gc()
+
     return avg_lm_loss.avg, math.exp(avg_lm_loss.avg)
 
 
@@ -196,7 +202,8 @@ def train_validate(
         _lm_logits, _lm_loss = model(
             _input, lm_labels=_target, lm_mask=_msk, label_smooth=args.label_smooth
         ) 
-
+        # Debug 0705
+        # jt.sync_all(True)
         _lm_loss = _lm_loss.mean() 
 
         train_step += 1
@@ -204,12 +211,13 @@ def train_validate(
         # avg_lm_loss.update(_lm_loss.item())
         # Core Debug?
         # avg_lm_loss.update(_lm_loss.numpy().item())
-        avg_lm_loss.update(_lm_loss.item())
+        avg_lm_loss.update(float(_lm_loss.data))
 
+        
         optimizer_step(
             _lm_loss/(args.grad_acc), optimizer, model, scheduler, args, is_update=is_update
         )
-        
+
         if train_step % args.log_interval == 0: 
             elapsed = time.time() - log_start_time
             lr = optimizer.param_groups[0]['lr']
@@ -251,6 +259,11 @@ def train_validate(
             model.train()
             # distributed_sync(args)
 
+        # Core Debug 0705 night
+        # del _input, _target, _msk, _lm_logits, _lm_loss
+        # jt.gc()
+        
+
         if train_step == args.max_step:
             break
 
@@ -260,6 +273,13 @@ def train_validate(
         jt.save({'model_state_dict': model.state_dict()}, model_path) 
     # distributed_sync(args)
     return train_step
+
+# Core Debug:
+import os
+os.environ["JT_SAVE_MEM"]="1"
+os.environ["cpu_mem_limit"]=str(32*1024**3)
+os.environ["device_mem_limit"]=str(16*1024**3)
+# jt.flags.lazy_execution = 0
 
 
 if __name__ == '__main__':
@@ -282,7 +302,8 @@ if __name__ == '__main__':
     train_data = FT_Dataset(
         args.train_data, args.train_batch_size, args.seq_len, 
         joint_lm=args.obj=='jlm'
-    )     
+    )
+    # print(f"INFO: train_data len: {len(train_data)}")     
     
     valid_data = FT_Dataset(
         args.valid_data, args.valid_batch_size, args.seq_len,
@@ -292,9 +313,8 @@ if __name__ == '__main__':
         train_data, batch_size=args.train_batch_size, num_workers=0, 
         shuffle=False, drop_last=True,
     )
-
     # Weihua Info: 打印每个 epoch 有多少 step（即 batch 数），等于训练集样本数 // batch size
-    print(f"Info: Steps(batch) in each Epoch: {len(train_loader)}")
+    # print(f"INFO: Steps(batch) in each Epoch: {len(train_loader)}")
     
     valid_loader = DataLoader(
         valid_data, batch_size=args.valid_batch_size, num_workers=0, 
@@ -340,6 +360,10 @@ if __name__ == '__main__':
         args.world_size = 1
         args.max_step = (args.max_epoch * train_data.num_batches + args.world_size - 1) // args.world_size
         print('set max_step:', args.max_step)
+        
+        # HandSet: deal with OOM
+        # args.max_step = 5000
+        # print('ATTENTION: reset max_step:', args.max_step)
 
     scheduler = create_optimizer_scheduler(optimizer, args)
     if args.fp16:
@@ -353,6 +377,26 @@ if __name__ == '__main__':
                 lm_net, optimizer, scheduler, train_loader, valid_loader, args, 
                 train_step=train_step, epoch=epoch
             )
+
+            # # ==================== 内存调试和清理建议 (Memory Debugging & Cleanup) ====================
+            # # 核心建议：在每个 epoch 结束后，强制 Jittor 同步并清理内存。
+            # # 这有助于解决因计算图未及时释放导致的显存持续增长问题。
+            # # 注意：这主要用于调试。频繁同步会影响性能，但如果它能解决OOM，
+            # # 就说明问题根源在于训练/验证循环内部存在变量引用未释放。
+            # if args.rank == 0: # 只在主进程打印信息
+            #     print(f"Epoch {epoch} finished. Forcing sync and GC...")
+                
+            #     # 1. 强制同步CPU和GPU，并执行垃圾回收 (关键步骤)
+            #     #    参数 True 表示清空Jittor的内部缓存，回收力度更强。
+            #     # jittor.sync_all(True)
+    
+            #     # 2. (可选) 打印Jittor的显存使用情况，帮助你监控显存变化
+            #     #    如果这里的显存在每个 epoch 后都保持稳定或在合理范围内，说明清理生效了。
+            #     print("Jittor memory info after sync:")
+            #     jt.display_memory_info()
+            #     print('-' * 80)
+            # # =========================================================================================
+
             
             if train_step >= args.max_step or (args.max_epoch is not None and epoch >= args.max_epoch):
                 if args.rank == 0:
@@ -363,6 +407,7 @@ if __name__ == '__main__':
         if args.rank == 0:
             print('-' * 100)
             print('Exiting from training early')
+
 
     # distributed_sync(args)
     print('cleanup dist ...')

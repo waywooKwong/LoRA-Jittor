@@ -228,6 +228,7 @@ class FT_Dataset(Dataset):
 
     def __len__(self):
         return self.num_batches * self.batch_size
+        # return self.num_batches
         
     def __getitem__(self, item):
         if(item >= self.num_examples):
