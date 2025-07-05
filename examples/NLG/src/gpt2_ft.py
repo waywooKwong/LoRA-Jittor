@@ -63,6 +63,7 @@ parser.add_argument('--fp16', action='store_true', help='train model with fp16')
 
 parser.add_argument('--log_interval', type=int, default=100, help='log interval')
 
+# Perf: eval_interval
 parser.add_argument('--eval_interval', type=int, default=2000, help='eval interval')
 
 parser.add_argument('--save_interval', type=int, default=500, help='save interval')
@@ -279,7 +280,8 @@ if __name__ == '__main__':
         args.train_data, args.train_batch_size, args.seq_len, 
         joint_lm=args.obj=='jlm'
     )     
-    
+    print(f"INFO: train_data len: {len(train_data)}")     
+
     valid_data = FT_Dataset(
         args.valid_data, args.valid_batch_size, args.seq_len,
     )
@@ -289,6 +291,7 @@ if __name__ == '__main__':
         shuffle=False, pin_memory=False, drop_last=True,
         sampler=torch.utils.data.distributed.DistributedSampler(train_data, seed=args.random_seed)
     )
+    print(f"INFO: Steps(batch) in each Epoch: {len(train_loader)}")
     
     valid_loader = DataLoader(
         valid_data, batch_size=args.valid_batch_size, num_workers=0, 
@@ -329,7 +332,9 @@ if __name__ == '__main__':
         lora.mark_only_lora_as_trainable(lm_net)
     optimizer = create_adam_optimizer_from_args(lm_net, args)
 
+    
     if args.max_step is None:
+        print('INFO: default arg: world_size:', args.world_size)
         args.max_step = (args.max_epoch * train_data.num_batches + args.world_size - 1) // args.world_size
         print('set max_step:', args.max_step)
 
