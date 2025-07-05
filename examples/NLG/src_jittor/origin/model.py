@@ -395,13 +395,9 @@ class GPT2LMModel(Module):
                 loss = (1.0 - label_smooth) * nll_loss + label_smooth * smooth_loss
                 loss = loss.view(_batch, _len)
             else:
-                # loss_fct = nn.CrossEntropyLoss(ignore_index=-1)
-                # loss = loss_fct(lm_logits.view(-1, lm_logits.size(-1)), lm_labels.view(-1)).view(_batch, _len)
-                # # Core Debug: need a reduction = 'none' para. CrossEntropyLoss not support
-                # loss_fct = nn.cross_entropy_loss(ignore_index=-1, reduction='none')
-                # loss = loss_fct(lm_logits.view(-1, lm_logits.size(-1)), lm_labels.view(-1)).view(_batch, _len)
-                # Debug v2:
-                loss = nn.cross_entropy_loss(lm_logits.view(-1, lm_logits.size(-1)), lm_labels.view(-1),reduction='none').view(_batch, _len)
+                loss_fct = nn.CrossEntropyLoss(ignore_index=-1)
+                loss = loss_fct(lm_logits.view(-1, lm_logits.size(-1)), lm_labels.view(-1)).view(_batch, _len)
+
             if lm_mask is None:
                 lm_mask = jt.ones(loss.shape)
             loss = loss * lm_mask 

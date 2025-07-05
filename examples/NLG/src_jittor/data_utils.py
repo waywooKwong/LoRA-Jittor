@@ -2,6 +2,8 @@
 #  Copyright (c) Microsoft Corporation. All rights reserved.
 #  Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 #  ------------------------------------------------------------------------------------------
+#  Weihua Modified 
+#  ------------------------------------------------------------------------------------------
 import os, sys
 import glob
 import random
@@ -34,15 +36,15 @@ class LMOrderedIterator(object):
         self.n_step = len(data) // self.global_bsz # bsz
 
 
-        # self.split_data = jt.tensor(
+        # self.split_data = jt.Var(
         #     data[rank * self.n_step * bsz : (rank + 1) * self.n_step * bsz], 
         #     dtype=jt.long, device=self.device
         # )  # data.view(-1)
         
-        # weihua 250701: jittor 使用 var 
-        self.split_data = jt.var(
-            data[rank * self.n_step * bsz : (rank + 1) * self.n_step * bsz], 
-            dtype=jt.int64, device=self.device
+        # weihua 250701: jittor 使用 var
+        # ReDebug: no device
+        self.split_data = jt.Var(
+            data[rank * self.n_step * bsz : (rank + 1) * self.n_step * bsz]
         )  # data.view(-1)
         
         self.split_data = self.split_data.view(bsz, -1) 
@@ -126,13 +128,13 @@ class BinLMOrderedIterator(object):
             _inputs.append(_input)
             _targets.append(_target)
 
-        _input = jt.tensor(_inputs, dtype=jt.int64, device=self.device).contiguous()
-        _target = jt.tensor(_targets, dtype=jt.int64, device=self.device).contiguous()
+        _input = jt.Var(_inputs).contiguous()
+        _target = jt.Var(_targets).contiguous()
 
         _msk = jt.concat(
             [
-                jt.zeros(bptt-eval_len, dtype=jt.float, device=self.device), 
-                jt.ones(eval_len, dtype=jt.float, device=self.device)
+                jt.zeros(bptt-eval_len), 
+                jt.ones(eval_len)
             ]
         )
         _msk = _msk.unsqueeze(0).expand_as(_input) # .unsqueeze(-1) # length, 1; 
@@ -251,21 +253,19 @@ class FT_Dataset(Dataset):
 
         _msk, _ = padding_tokens(_msk, self.max_seq_length, 0.0, 1)
         
-        output = {}
-        # Error: Var not support para'dtype'
-        # remove dtype or jt.int64(item)
-        output["id"] = jt.Var(item)
-        
         _query, _query_len = padding_tokens(
             conditions, self.max_seq_length, 0, -1, 
             max_context_length = self.max_seq_length - self.max_eval_length
         )
+
+        output = {}
+        # Error: Var not support para'dtype'
+        # remove dtype or jt.int64(item)
+        output["id"] = jt.Var(item)
         output["query"] = jt.Var(_query)
         output["query_len"] = jt.Var(_query_len)
-
         output["input"] = jt.Var(_input) 
         output["target"] = jt.Var(_target) 
-
         output["mask"] = jt.Var(_msk)
         return output
 

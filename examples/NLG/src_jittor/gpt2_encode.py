@@ -10,13 +10,6 @@ import encoder
 import argparse
 import os
 import random
-import jt
-import jt.nn as nn
-import jt.nn.parallel
-import jt.backends.cudnn as cudnn
-import jt.optim as optim
-import jt.utils.data
-
 import numpy
 import io
 import sys

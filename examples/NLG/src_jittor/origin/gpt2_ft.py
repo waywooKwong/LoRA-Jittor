@@ -121,17 +121,15 @@ class AverageMeter(object):
 
 
 def optimizer_step(_loss, _optimizer, _model, _schedule, args, is_update=True):
-    # if args.fp16:
-    #     with amp.scale_loss(_loss, _optimizer) as _scaled_loss:
-    #         _scaled_loss.backward()
-    # else:
-    #     _loss.backward()
-    # Core Debug??
-    _optimizer.backward(_loss)
+    if args.fp16:
+        with amp.scale_loss(_loss, _optimizer) as _scaled_loss:
+            _scaled_loss.backward()
+    else:
+        _loss.backward()
 
     if is_update:
         if args.clip > 0:
-            _optimizer.clip_grad_norm(_model.parameters(), args.clip)
+            nn.clip_grad_norm_(_model.parameters(), args.clip)
 
         _optimizer.step()        
         _optimizer.zero_grad()
@@ -201,11 +199,7 @@ def train_validate(
 
         train_step += 1
         is_update = True if train_step % args.grad_acc == 0 else False
-        # avg_lm_loss.update(_lm_loss.item())
-        # Core Debug?
-        # avg_lm_loss.update(_lm_loss.numpy().item())
         avg_lm_loss.update(_lm_loss.item())
-
         optimizer_step(
             _lm_loss/(args.grad_acc), optimizer, model, scheduler, args, is_update=is_update
         )
@@ -292,9 +286,6 @@ if __name__ == '__main__':
         train_data, batch_size=args.train_batch_size, num_workers=0, 
         shuffle=False, drop_last=True,
     )
-
-    # Weihua Info: 打印每个 epoch 有多少 step（即 batch 数），等于训练集样本数 // batch size
-    print(f"Info: Steps(batch) in each Epoch: {len(train_loader)}")
     
     valid_loader = DataLoader(
         valid_data, batch_size=args.valid_batch_size, num_workers=0, 
@@ -336,9 +327,7 @@ if __name__ == '__main__':
 
     if args.max_step is None:
         # Debug: Jittor world_size default 0
-        # Core Debug: /2
-        args.world_size = 1
-        args.max_step = (args.max_epoch * train_data.num_batches + args.world_size - 1) // args.world_size
+        args.max_step = (args.max_epoch * train_data.num_batches)
         print('set max_step:', args.max_step)
 
     scheduler = create_optimizer_scheduler(optimizer, args)

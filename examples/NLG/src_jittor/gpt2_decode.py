@@ -10,13 +10,6 @@ import sys
 import re
 import json
 
-import jt
-import jt.nn as nn
-import jt.nn.parallel
-import jt.backends.cudnn as cudnn
-import jt.optim as optim
-import jt.utils.data
-
 import encoder
 
 
