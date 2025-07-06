@@ -8,7 +8,7 @@ import math
 import os, sys
 import json
 import itertools
-from typing import Callable, Dict, Iterable, List, Optional, Tuple
+from typing import Tuple, Any
 
 import jittor as jt
 from jittor import nn, Var
@@ -87,7 +87,11 @@ def print_args(args):
 
 
 def _reorder_cache(past: Tuple, beam_idx: Var) -> Tuple[Any, ...]:
-    return tuple(layer_past.index_select(1, beam_idx).contiguous().detach() for layer_past in past)
+    # Error: RuntimeError: mat1 and mat2 shapes cannot be multiplied ...
+    # Debug: index_select 时，得到的张量形状和预期不一致（batch_size 维被 squeeze 掉了）
+    
+    # return tuple(layer_past.index_select(1, beam_idx).contiguous().detach() for layer_past in past)
+    return tuple(layer_past.getitem(((slice(None),)*1)+(beam_idx,)) for layer_past in past)
 
 
 def _calc_banned_ngram_tokens(
