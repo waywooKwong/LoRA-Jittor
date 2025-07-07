@@ -12,6 +12,14 @@ pretrained_checkpoints
 .*
 *~*
 
+# 250707: remove NLU
+/NLU
+/examples
+NLU
+examples
+NLG/eval/GenerationEval/
+NLG/eval/e2e/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

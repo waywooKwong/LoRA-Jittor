@@ -1,8 +1,0 @@
-# Weihua version: 250707
-torch==2.3.0+cu121
-transformers==4.53.0
-peft==0.16.0
-datasets==3.6.0
-evaluate==0.4.4
-tf-keras==2.19.0
-sacrebleu
