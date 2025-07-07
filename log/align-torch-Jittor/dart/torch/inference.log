@@ -1,0 +1,144 @@
+/root/miniconda3/lib/python3.12/site-packages/torch/distributed/launch.py:183: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use-env is set by default in torchrun.
+If your script expects `--local-rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+myrank: 0 local_rank: 0 device_count: 1 world_size: 1
+====================================================================================================
+        - platform : local
+        - local_rank : 0
+        - rank : 0
+        - device : cuda:0
+        - world_size : 1
+        - random_seed : 10
+        - data : ./data/dart/test_1k.jsonl
+        - batch_size : 1
+        - seq_len : 512
+        - eval_len : 64
+        - min_length : 0
+        - model_card : gpt2.md
+        - init_checkpoint : ./trained_models/GPT2_M/dart/model.6250.pt
+        - lora_dim : 4
+        - lora_alpha : 32
+        - work_dir : ./trained_models/GPT2_M/dart
+        - beam : 10
+        - length_penalty : 0.8
+        - no_repeat_ngram_size : 4
+        - repetition_penalty : 1.0
+        - eos_token_id : [50256, 628]
+        - output_file : predict.6250.b10p08r4.jsonl
+        - dist : <module 'torch.distributed' from '/root/miniconda3/lib/python3.12/site-packages/torch/distributed/__init__.py'>
+====================================================================================================
+Experiment dir : ./trained_models/GPT2_M/dart
+loading model pretrained weight.
+model sampling ...
+inference samples 0
+inference samples 10
+inference samples 20
+inference samples 30
+inference samples 40
+inference samples 50
+inference samples 60
+inference samples 70
+inference samples 80
+inference samples 90
+inference samples 100
+inference samples 110
+inference samples 120
+inference samples 130
+inference samples 140
+inference samples 150
+inference samples 160
+inference samples 170
+inference samples 180
+inference samples 190
+inference samples 200
+inference samples 210
+inference samples 220
+inference samples 230
+inference samples 240
+inference samples 250
+inference samples 260
+inference samples 270
+inference samples 280
+inference samples 290
+inference samples 300
+inference samples 310
+inference samples 320
+inference samples 330
+inference samples 340
+inference samples 350
+inference samples 360
+inference samples 370
+inference samples 380
+inference samples 390
+inference samples 400
+inference samples 410
+inference samples 420
+inference samples 430
+inference samples 440
+inference samples 450
+inference samples 460
+inference samples 470
+inference samples 480
+inference samples 490
+inference samples 500
+inference samples 510
+inference samples 520
+inference samples 530
+inference samples 540
+inference samples 550
+inference samples 560
+inference samples 570
+inference samples 580
+inference samples 590
+inference samples 600
+inference samples 610
+inference samples 620
+inference samples 630
+inference samples 640
+inference samples 650
+inference samples 660
+inference samples 670
+inference samples 680
+inference samples 690
+inference samples 700
+inference samples 710
+inference samples 720
+inference samples 730
+inference samples 740
+inference samples 750
+inference samples 760
+inference samples 770
+inference samples 780
+inference samples 790
+inference samples 800
+inference samples 810
+inference samples 820
+inference samples 830
+inference samples 840
+inference samples 850
+inference samples 860
+inference samples 870
+inference samples 880
+inference samples 890
+inference samples 900
+inference samples 910
+inference samples 920
+inference samples 930
+inference samples 940
+inference samples 950
+inference samples 960
+inference samples 970
+inference samples 980
+inference samples 990
+saving prediction file ./trained_models/GPT2_M/dart/predict.6250.b10p08r4.jsonl
+cleanup dist ...
+
+real    41m52.046s
+user    41m49.032s
+sys     0m9.347s

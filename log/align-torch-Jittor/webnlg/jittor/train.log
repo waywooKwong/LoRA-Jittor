@@ -1,0 +1,133 @@
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/examples/NLG# time python src_jittor/gpt2_ft.py \
+    --train_data ./data/webnlg_challenge_2017/train_2k.jsonl \
+    --valid_data ./data/webnlg_challenge_2017/valid_400.jsonl \
+    --train_batch_size 4 \
+    --grad_acc 1 \
+    --valid_batch_size 2 \
+    --seq_len 512 \
+    --model_card gpt2.md \
+    --init_checkpoint ./pretrained_checkpoints/gpt2-medium-pytorch_model_zip.bin \
+    --platform local \
+    --clip 0.0 \
+    --lr 0.0002 \
+    --weight_decay 0.01 \
+    --correct_bias \
+    --adam_beta2 0.999 \
+    --scheduler linear \
+    --warmup_step 500 \
+    --random_seed 110ned_models_jittor/GPT2_M/webnlg_challenge_2017 \
+[i 0706 12:15:55.457981 48 compiler.py:956] Jittor(1.3.9.14) src: /root/miniconda3/lib/python3.12/site-packages/jittor
+[i 0706 12:15:55.460444 48 compiler.py:957] g++ at /usr/bin/g++(11.4.0)
+[i 0706 12:15:55.460593 48 compiler.py:958] cache_path: /root/.cache/jittor/jt1.3.9/g++11.4.0/py3.12.2/Linux-5.15.0-1x3d/IntelRXeonRGolxec/a83b/default
+[i 0706 12:15:55.464735 48 __init__.py:412] Found nvcc(12.1.105) at /usr/local/cuda/bin/nvcc.
+[i 0706 12:15:55.467811 48 __init__.py:412] Found addr2line(2.38) at /usr/bin/addr2line.
+[i 0706 12:15:55.754644 48 compiler.py:1013] cuda key:cu12.1.105_sm_86
+[i 0706 12:15:56.214766 48 __init__.py:227] Total mem: 503.52GB, using 16 procs for compiling.
+[i 0706 12:15:56.331086 48 jit_compiler.cc:28] Load cc_path: /usr/bin/g++
+[i 0706 12:15:56.606871 48 init.cc:63] Found cuda archs: [86,]
+[i 0706 12:15:58.390048 48 cuda_flags.cc:55] CUDA enabled.
+====================================================================================================
+        - platform : local
+        - local_rank : 0
+        - rank : 0
+        - device : 0
+        - world_size : 0
+        - random_seed : 110
+        - lr : 0.0002
+        - weight_decay : 0.01
+        - correct_bias : True
+        - adam_epislon : 1e-06
+        - no_decay_bias : False
+        - adam_beta1 : 0.9
+        - adam_beta2 : 0.999
+        - scheduler : linear
+        - max_step : None
+        - max_epoch : 5
+        - warmup_step : 500
+        - i_steps : 0
+        - i_lrs : 0.00025
+        - train_data : ./data/webnlg_challenge_2017/train_2k.jsonl
+        - valid_data : ./data/webnlg_challenge_2017/valid_400.jsonl
+        - train_batch_size : 4
+        - valid_batch_size : 2
+        - grad_acc : 1
+        - clip : 0.0
+        - seq_len : 512
+        - model_card : gpt2.md
+        - init_checkpoint : ./pretrained_checkpoints/gpt2-medium-pytorch_model_zip.bin
+        - fp16 : False
+        - log_interval : 100
+        - eval_interval : 1000
+        - save_interval : 1000
+        - work_dir : ./trained_models_jittor/GPT2_M/webnlg_challenge_2017
+        - lora_dim : 4
+        - lora_alpha : 32
+        - obj : clm
+        - lora_dropout : 0.1
+        - label_smooth : 0.1
+        - roll_interval : -1
+        - roll_lr : 1e-05
+        - roll_step : 100
+        - eval_epoch : 1
+====================================================================================================
+Experiment dir : ./trained_models_jittor/GPT2_M/webnlg_challenge_2017
+loading model pretrained weight.
+set max_step: 2500
+start to train the model................ 1
+/root/LoRA/examples/NLG/src_jittor/gpt2_ft.py:214: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+  avg_lm_loss.update(float(_lm_loss.data))
+| epoch   1 step      100 |    100 batches | lr 4e-05 | ms/batch 547.56 | loss  4.66 | avg loss  5.14 | ppl 170.25
+| epoch   1 step      200 |    200 batches | lr 8e-05 | ms/batch 543.87 | loss  2.80 | avg loss  3.56 | ppl 35.22
+| epoch   1 step      300 |    300 batches | lr 0.00012 | ms/batch 541.14 | loss  2.39 | avg loss  2.78 | ppl 16.15
+| epoch   1 step      400 |    400 batches | lr 0.00016 | ms/batch 543.37 | loss  2.58 | avg loss  2.44 | ppl 11.49
+| epoch   1 step      500 |    500 batches | lr 0.0002 | ms/batch 544.84 | loss  2.26 | avg loss  2.30 | ppl  9.98
+saving checkpoint ./trained_models_jittor/GPT2_M/webnlg_challenge_2017/model.500.pt
+start to train the model................ 2
+| epoch   2 step      600 |    100 batches | lr 0.00019 | ms/batch 540.39 | loss  2.46 | avg loss  2.29 | ppl  9.89
+| epoch   2 step      700 |    200 batches | lr 0.00018 | ms/batch 542.51 | loss  1.93 | avg loss  2.26 | ppl  9.54
+| epoch   2 step      800 |    300 batches | lr 0.00017 | ms/batch 541.57 | loss  2.02 | avg loss  2.29 | ppl  9.92
+| epoch   2 step      900 |    400 batches | lr 0.00016 | ms/batch 541.91 | loss  2.34 | avg loss  2.20 | ppl  9.01
+| epoch   2 step     1000 |    500 batches | lr 0.00015 | ms/batch 542.56 | loss  2.13 | avg loss  2.12 | ppl  8.34
+saving checkpoint ./trained_models_jittor/GPT2_M/webnlg_challenge_2017/model.1000.pt
+eval samples: 0 loss: jt.Var([0.41971657], dtype=float32)
+eval samples: 100 loss: jt.Var([0.80747116], dtype=float32)
+average loss 0.956786413565278
+----------------------------------------------------------------------------------------------------
+| Eval   1 at step     1000 | time: 25.36s | valid loss  0.96 | valid ppl  2.60 | best ppl  2.60 
+----------------------------------------------------------------------------------------------------
+saving checkpoint ./trained_models_jittor/GPT2_M/webnlg_challenge_2017/model.1000.pt
+start to train the model................ 3
+| epoch   3 step     1100 |    100 batches | lr 0.00014 | ms/batch 539.28 | loss  2.17 | avg loss  2.09 | ppl  8.09
+| epoch   3 step     1200 |    200 batches | lr 0.00013 | ms/batch 541.72 | loss  1.86 | avg loss  2.10 | ppl  8.14
+| epoch   3 step     1300 |    300 batches | lr 0.00012 | ms/batch 542.39 | loss  1.93 | avg loss  2.16 | ppl  8.65
+| epoch   3 step     1400 |    400 batches | lr 0.00011 | ms/batch 542.30 | loss  2.26 | avg loss  2.10 | ppl  8.18
+| epoch   3 step     1500 |    500 batches | lr 0.0001 | ms/batch 545.44 | loss  2.06 | avg loss  2.04 | ppl  7.71
+saving checkpoint ./trained_models_jittor/GPT2_M/webnlg_challenge_2017/model.1500.pt
+start to train the model................ 4
+| epoch   4 step     1600 |    100 batches | lr 9e-05 | ms/batch 542.04 | loss  2.05 | avg loss  2.02 | ppl  7.51
+| epoch   4 step     1700 |    200 batches | lr 8e-05 | ms/batch 545.74 | loss  1.83 | avg loss  2.03 | ppl  7.58
+| epoch   4 step     1800 |    300 batches | lr 7e-05 | ms/batch 544.17 | loss  1.88 | avg loss  2.08 | ppl  8.02
+| epoch   4 step     1900 |    400 batches | lr 6e-05 | ms/batch 544.13 | loss  2.21 | avg loss  2.05 | ppl  7.75
+| epoch   4 step     2000 |    500 batches | lr 5e-05 | ms/batch 543.46 | loss  2.06 | avg loss  2.00 | ppl  7.37
+saving checkpoint ./trained_models_jittor/GPT2_M/webnlg_challenge_2017/model.2000.pt
+eval samples: 0 loss: jt.Var([0.34528813], dtype=float32)
+eval samples: 100 loss: jt.Var([0.63847107], dtype=float32)
+average loss 0.918239282593131
+----------------------------------------------------------------------------------------------------
+| Eval   2 at step     2000 | time: 25.65s | valid loss  0.92 | valid ppl  2.50 | best ppl  2.50 
+----------------------------------------------------------------------------------------------------
+saving checkpoint ./trained_models_jittor/GPT2_M/webnlg_challenge_2017/model.2000.pt
+start to train the model................ 5
+| epoch   5 step     2100 |    100 batches | lr 4e-05 | ms/batch 541.14 | loss  1.98 | avg loss  1.97 | ppl  7.17
+| epoch   5 step     2200 |    200 batches | lr 3e-05 | ms/batch 542.83 | loss  1.83 | avg loss  1.99 | ppl  7.28
+| epoch   5 step     2300 |    300 batches | lr 2e-05 | ms/batch 543.36 | loss  1.88 | avg loss  2.04 | ppl  7.68
+| epoch   5 step     2400 |    400 batches | lr 1e-05 | ms/batch 543.75 | loss  2.19 | avg loss  2.01 | ppl  7.47
+| epoch   5 step     2500 |    500 batches | lr 0 | ms/batch 542.94 | loss  2.09 | avg loss  1.98 | ppl  7.23
+saving checkpoint ./trained_models_jittor/GPT2_M/webnlg_challenge_2017/model.2500.pt
+----------------------------------------------------------------------------------------------------
+End of training
+cleanup dist ...
+
+real    24m2.929s
+user    22m41.690s
+sys     1m25.537s

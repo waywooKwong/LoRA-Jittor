@@ -1,0 +1,148 @@
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/NLG# # train
+python src_peft/train.py \
+    --model_name gpt2-medium \
+    --train_file ./data/dart/train_5k.jsonl \
+    --valid_file ./data/dart/valid_600.jsonl \
+    --output_dir ./trained_models_peft/GPT2_M/dart \
+    --per_device_train_batch_size 8 \
+    --per_device_eval_batch_size 4 \
+    --lora_r 8 \
+    --lora_alpha 32 \
+    --lora_dropout 0.1 \
+    --learning_rate 0.0002 \
+    --num_train_epochs 10 \
+    --gradient_accumulation_steps 2
+2025-07-07 23:46:50.454989: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-07 23:46:50.477650: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1751903210.519346   11524 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1751903210.533013   11524 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1751903210.560147   11524 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751903210.560189   11524 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751903210.560195   11524 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751903210.560202   11524 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-07-07 23:46:50.566449: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading model: gpt2-medium
+/root/miniconda3/lib/python3.12/site-packages/peft/tuners/lora/layer.py:1803: UserWarning: fan_in_fan_out is set to False but the target module is `Conv1D`. Setting fan_in_fan_out to True.
+  warnings.warn(
+Generating train split: 5000 examples [00:00, 263852.44 examples/s]
+Generating train split: 600 examples [00:00, 76100.95 examples/s]
+Map: 100%|██████████████████████████████████████████████████████████████████████████████| 5000/5000 [00:00<00:00, 14334.72 examples/s]
+Map: 100%|████████████████████████████████████████████████████████████████████████████████| 600/600 [00:00<00:00, 13477.41 examples/s]
+No label_names provided for model class `PeftModelForCausalLM`. Since `PeftModel` hides base models input arguments, if label_names is not given, label_names can't be set automatically within `Trainer`. Note that empty label_names list will be used instead.
+INFO: Start training...
+  0%|                                                                                               | 0/3130 [00:00<?, ?it/s]`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+{'loss': 4.559, 'grad_norm': 1.4227644205093384, 'learning_rate': 1.9600000000000002e-05, 'epoch': 0.16}                     
+{'loss': 3.6187, 'grad_norm': 1.8233753442764282, 'learning_rate': 3.960000000000001e-05, 'epoch': 0.32}                                     
+{'loss': 2.2275, 'grad_norm': 1.5060451030731201, 'learning_rate': 5.96e-05, 'epoch': 0.48}                                                  
+{'loss': 2.0019, 'grad_norm': 1.735309362411499, 'learning_rate': 7.960000000000001e-05, 'epoch': 0.64}                                      
+{'loss': 1.9173, 'grad_norm': 1.5554214715957642, 'learning_rate': 9.960000000000001e-05, 'epoch': 0.8}                                      
+{'loss': 1.9227, 'grad_norm': 1.7037909030914307, 'learning_rate': 0.00011960000000000001, 'epoch': 0.96}                                    
+{'loss': 1.8609, 'grad_norm': 3.0849246978759766, 'learning_rate': 0.0001396, 'epoch': 1.12}                                                 
+{'loss': 1.7972, 'grad_norm': 1.76266348361969, 'learning_rate': 0.0001596, 'epoch': 1.28}                                                   
+{'loss': 1.8164, 'grad_norm': 2.5871613025665283, 'learning_rate': 0.0001796, 'epoch': 1.44}                                                 
+{'loss': 1.7698, 'grad_norm': 1.496745228767395, 'learning_rate': 0.0001996, 'epoch': 1.6}                                                   
+{'loss': 1.7196, 'grad_norm': 1.5991708040237427, 'learning_rate': 0.00019627376425855516, 'epoch': 1.76}                                    
+{'loss': 1.6773, 'grad_norm': 1.399355173110962, 'learning_rate': 0.00019247148288973384, 'epoch': 1.92}                                     
+{'loss': 1.6842, 'grad_norm': 1.5104950666427612, 'learning_rate': 0.00018866920152091257, 'epoch': 2.08}                                    
+{'loss': 1.6367, 'grad_norm': 1.4845465421676636, 'learning_rate': 0.00018486692015209127, 'epoch': 2.24}                                    
+{'loss': 1.6391, 'grad_norm': 1.5109846591949463, 'learning_rate': 0.00018106463878326997, 'epoch': 2.4}                                     
+{'loss': 1.611, 'grad_norm': 2.0460081100463867, 'learning_rate': 0.00017726235741444868, 'epoch': 2.56}                                     
+{'loss': 1.6329, 'grad_norm': 1.6897635459899902, 'learning_rate': 0.0001734600760456274, 'epoch': 2.72}                                     
+{'loss': 1.6195, 'grad_norm': 1.5850865840911865, 'learning_rate': 0.00016965779467680608, 'epoch': 2.88}                                    
+ 29%|████████████████████████▌                                                            | 905/3130 [03:38<10:50,  3.42it/s]{'loss': 1.5366, 'grad_norm': 1.4804344177246094, 'learning_rate': 0.00016585551330798478, 'epoch': 3.04}                    
+{'loss': 1.5179, 'grad_norm': 1.7713679075241089, 'learning_rate': 0.00016205323193916352, 'epoch': 3.2}                     
+{'eval_loss': 1.4626750946044922, 'eval_runtime': 4.5355, 'eval_samples_per_second': 132.289, 'eval_steps_per_second': 33.072, 'epoch': 3.2}                                                                                                              
+{'loss': 1.4808, 'grad_norm': 1.6041336059570312, 'learning_rate': 0.00015825095057034222, 'epoch': 3.36}                    
+{'loss': 1.522, 'grad_norm': 1.6135135889053345, 'learning_rate': 0.00015444866920152092, 'epoch': 3.52}                     
+{'loss': 1.5497, 'grad_norm': 1.7610576152801514, 'learning_rate': 0.00015064638783269962, 'epoch': 3.68}                    
+{'loss': 1.5341, 'grad_norm': 1.4043630361557007, 'learning_rate': 0.00014684410646387833, 'epoch': 3.84}                    
+{'loss': 1.5194, 'grad_norm': 1.7516989707946777, 'learning_rate': 0.00014304182509505703, 'epoch': 4.0}                     
+{'loss': 1.5005, 'grad_norm': 1.6101375818252563, 'learning_rate': 0.00013923954372623576, 'epoch': 4.15}                    
+{'loss': 1.4334, 'grad_norm': 1.9922120571136475, 'learning_rate': 0.00013543726235741446, 'epoch': 4.31}                    
+{'loss': 1.428, 'grad_norm': 1.5283759832382202, 'learning_rate': 0.00013163498098859317, 'epoch': 4.47}                     
+{'loss': 1.4624, 'grad_norm': 1.5047122240066528, 'learning_rate': 0.00012783269961977187, 'epoch': 4.63}                    
+{'loss': 1.4608, 'grad_norm': 1.840563416481018, 'learning_rate': 0.00012403041825095057, 'epoch': 4.79}                     
+{'loss': 1.4495, 'grad_norm': 1.5852305889129639, 'learning_rate': 0.00012022813688212928, 'epoch': 4.95}                    
+{'loss': 1.4124, 'grad_norm': 1.589295744895935, 'learning_rate': 0.00011642585551330798, 'epoch': 5.11}                     
+{'loss': 1.3536, 'grad_norm': 1.8682667016983032, 'learning_rate': 0.0001126235741444867, 'epoch': 5.27}                     
+{'loss': 1.3694, 'grad_norm': 1.9857803583145142, 'learning_rate': 0.0001088212927756654, 'epoch': 5.43}                     
+{'loss': 1.4148, 'grad_norm': 2.954946994781494, 'learning_rate': 0.00010501901140684412, 'epoch': 5.59}                     
+{'loss': 1.4405, 'grad_norm': 1.6203097105026245, 'learning_rate': 0.0001012167300380228, 'epoch': 5.75}                     
+{'loss': 1.3601, 'grad_norm': 1.7663031816482544, 'learning_rate': 9.741444866920154e-05, 'epoch': 5.91}                     
+{'loss': 1.3605, 'grad_norm': 1.9187694787979126, 'learning_rate': 9.361216730038024e-05, 'epoch': 6.07}                     
+{'loss': 1.3094, 'grad_norm': 1.6567555665969849, 'learning_rate': 8.980988593155893e-05, 'epoch': 6.23}                     
+{'loss': 1.37, 'grad_norm': 1.7315713167190552, 'learning_rate': 8.600760456273765e-05, 'epoch': 6.39}                       
+{'eval_loss': 1.403870940208435, 'eval_runtime': 4.1059, 'eval_samples_per_second': 146.132, 'eval_steps_per_second': 36.533, 'epoch': 6.39}                                                                                                              
+{'loss': 1.3248, 'grad_norm': 1.424638032913208, 'learning_rate': 8.220532319391635e-05, 'epoch': 6.55}                      
+{'loss': 1.3581, 'grad_norm': 1.947676181793213, 'learning_rate': 7.840304182509505e-05, 'epoch': 6.71}                      
+{'loss': 1.3852, 'grad_norm': 2.038013458251953, 'learning_rate': 7.460076045627377e-05, 'epoch': 6.87}                      
+{'loss': 1.336, 'grad_norm': 1.882888674736023, 'learning_rate': 7.079847908745247e-05, 'epoch': 7.03}                       
+{'loss': 1.3227, 'grad_norm': 1.7532217502593994, 'learning_rate': 6.699619771863119e-05, 'epoch': 7.19}                     
+{'loss': 1.2705, 'grad_norm': 1.7561038732528687, 'learning_rate': 6.319391634980989e-05, 'epoch': 7.35}                     
+{'loss': 1.2862, 'grad_norm': 1.4021239280700684, 'learning_rate': 5.9391634980988594e-05, 'epoch': 7.51}                    
+{'loss': 1.364, 'grad_norm': 1.9719630479812622, 'learning_rate': 5.5589353612167304e-05, 'epoch': 7.67}                     
+{'loss': 1.2995, 'grad_norm': 2.062830686569214, 'learning_rate': 5.1787072243346014e-05, 'epoch': 7.83}                     
+{'loss': 1.3399, 'grad_norm': 1.973061442375183, 'learning_rate': 4.798479087452472e-05, 'epoch': 7.99}                      
+{'loss': 1.2772, 'grad_norm': 1.8839880228042603, 'learning_rate': 4.418250950570342e-05, 'epoch': 8.15}                     
+{'loss': 1.236, 'grad_norm': 2.1714413166046143, 'learning_rate': 4.038022813688213e-05, 'epoch': 8.31}                      
+{'loss': 1.2644, 'grad_norm': 1.7594528198242188, 'learning_rate': 3.657794676806084e-05, 'epoch': 8.47}                     
+{'loss': 1.3384, 'grad_norm': 1.9107316732406616, 'learning_rate': 3.277566539923955e-05, 'epoch': 8.63}                     
+{'loss': 1.3363, 'grad_norm': 1.8574764728546143, 'learning_rate': 2.8973384030418253e-05, 'epoch': 8.79}                    
+{'loss': 1.2761, 'grad_norm': 2.335448980331421, 'learning_rate': 2.5171102661596956e-05, 'epoch': 8.95}                     
+{'loss': 1.2755, 'grad_norm': 2.2410032749176025, 'learning_rate': 2.1368821292775666e-05, 'epoch': 9.11}                    
+{'loss': 1.2795, 'grad_norm': 1.698712944984436, 'learning_rate': 1.7566539923954373e-05, 'epoch': 9.27}                     
+{'loss': 1.2617, 'grad_norm': 1.7132714986801147, 'learning_rate': 1.3764258555133081e-05, 'epoch': 9.43}                    
+{'loss': 1.2879, 'grad_norm': 2.0327556133270264, 'learning_rate': 9.961977186311787e-06, 'epoch': 9.59}                     
+{'eval_loss': 1.4022369384765625, 'eval_runtime': 4.1085, 'eval_samples_per_second': 146.038, 'eval_steps_per_second': 36.509, 'epoch': 9.59}                                                                                                             
+{'loss': 1.2322, 'grad_norm': 2.057950258255005, 'learning_rate': 6.159695817490495e-06, 'epoch': 9.75}                      
+{'loss': 1.2376, 'grad_norm': 2.1372745037078857, 'learning_rate': 2.3574144486692017e-06, 'epoch': 9.91}                    
+{'train_runtime': 772.5947, 'train_samples_per_second': 64.717, 'train_steps_per_second': 4.051, 'train_loss': 1.5634788769121748, 'epoch': 10.0}
+100%|████████████████████████████████████████████████████████████████████████████████████| 3130/3130 [12:52<00:00,  4.05it/s]
+INFO: Training completed. Save Path: ./trained_models_peft/GPT2_M/dart
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/NLG# python src_peft/inference.py \
+    --model_name gpt2-medium \
+    --lora_model_path ./trained_models_peft/GPT2_M/dart/checkpoint-3130 \
+    --test_file ./data/dart/test_1k.jsonl \
+    --output_file ./data/dart/peft_generated.jsonl
+2025-07-08 00:00:24.791954: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-08 00:00:24.809039: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1751904024.828975   15032 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1751904024.834728   15032 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1751904024.849493   15032 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751904024.849525   15032 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751904024.849528   15032 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751904024.849533   15032 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-07-08 00:00:24.854098: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+100%|████████████████████████████████████████████████████████████████████████████████████| 1000/1000 [08:45<00:00,  1.90it/s]
+推理完成，已保存到 ./data/dart/peft_generated.jsonl
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/NLG# # evaluation
+python src_peft/evaluation.py \
+    --hypothesis_file ./data/dart/peft_generated.jsonl \
+    --reference_file ./data/dart/test_formatted_1k.jsonl
+2025-07-08 00:11:41.058589: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-08 00:11:41.074116: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1751904701.092472   16945 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1751904701.098017   16945 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1751904701.112345   16945 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751904701.112382   16945 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751904701.112387   16945 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751904701.112391   16945 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-07-08 00:11:41.116693: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+[nltk_data] Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+[nltk_data] Downloading package omw-1.4 to /root/nltk_data...
+[nltk_data]   Package omw-1.4 is already up-to-date!
+SCORES:
+==============
+BLEU: 0.1052
+METEOR: 0.3817
+TER: 118.8328
+ROUGE_L: 0.3472

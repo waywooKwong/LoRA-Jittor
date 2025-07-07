@@ -1,0 +1,29 @@
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/examples/NLG# cd ./eval/GenerationEval/
+python eval.py \
+    -R data/references_webnlg/reference \
+    -H data/hypothesis_webnlg \
+    -nr 6 \
+    -m bleu,meteor,ter 
+cd ../..
+2025-07-06 16:54:29.136590: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-06 16:54:29.151656: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1751792069.170906   11389 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1751792069.177122   11389 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1751792069.193423   11389 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751792069.193478   11389 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751792069.193487   11389 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751792069.193491   11389 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-07-06 16:54:29.198875: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+STARTING TO PARSE INPUTS...
+FINISHING TO PARSE INPUTS...
+STARTING TO COMPUTE BLEU...
+FINISHING TO COMPUTE BLEU...
+STARTING TO COMPUTE METEOR...
+FINISHING TO COMPUTE METEOR...
+STARTING TO COMPUTE TER...
+FINISHING TO COMPUTE TER...
+  BLEU    BLEU NLTK    METEOR    TER
+------  -----------  --------  -----
+ 77.54         0.78      0.54   0.19

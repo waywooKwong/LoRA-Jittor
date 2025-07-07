@@ -1,0 +1,140 @@
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/examples/NLG# time python -m torch.distributed.launch --nproc_per_node=1 src/gpt2_ft.py \
+    --train_data ./data/webnlg_challenge_2017/train_2k.jsonl \
+    --valid_data ./data/webnlg_challenge_2017/valid_400.jsonl \
+    --train_batch_size 4 \
+    --grad_acc 1 \
+    --valid_batch_size 2 \
+    --seq_len 512 \
+    --model_card gpt2.md \
+    --init_checkpoint ./pretrained_checkpoints/gpt2-medium-pytorch_model_zip.bin \
+    --platform local \
+    --clip 0.0 \
+    --lr 0.0002 \
+    --weight_decay 0.01 \
+    --random_seed 110ned_models/GPT2_M/webnlg_challenge_2017 \
+/root/miniconda3/lib/python3.12/site-packages/torch/distributed/launch.py:183: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use-env is set by default in torchrun.
+If your script expects `--local-rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+myrank: 0 local_rank: 0 device_count: 1 world_size: 1
+====================================================================================================
+        - platform : local
+        - local_rank : 0
+        - rank : 0
+        - device : cuda:0
+        - world_size : 1
+        - random_seed : 110
+        - lr : 0.0002
+        - weight_decay : 0.01
+        - correct_bias : True
+        - adam_epislon : 1e-06
+        - no_decay_bias : False
+        - adam_beta1 : 0.9
+        - adam_beta2 : 0.999
+        - scheduler : linear
+        - max_step : None
+        - max_epoch : 5
+        - warmup_step : 500
+        - i_steps : 0
+        - i_lrs : 0.00025
+        - train_data : ./data/webnlg_challenge_2017/train_2k.jsonl
+        - valid_data : ./data/webnlg_challenge_2017/valid_400.jsonl
+        - train_batch_size : 4
+        - valid_batch_size : 2
+        - grad_acc : 1
+        - clip : 0.0
+        - seq_len : 512
+        - model_card : gpt2.md
+        - init_checkpoint : ./pretrained_checkpoints/gpt2-medium-pytorch_model_zip.bin
+        - fp16 : False
+        - log_interval : 100
+        - eval_interval : 1000
+        - save_interval : 1000
+        - work_dir : ./trained_models/GPT2_M/webnlg_challenge_2017
+        - lora_dim : 4
+        - lora_alpha : 32
+        - obj : clm
+        - lora_dropout : 0.1
+        - label_smooth : 0.1
+        - roll_interval : -1
+        - roll_lr : 1e-05
+        - roll_step : 100
+        - eval_epoch : 1
+        - dist : <module 'torch.distributed' from '/root/miniconda3/lib/python3.12/site-packages/torch/distributed/__init__.py'>
+====================================================================================================
+Experiment dir : ./trained_models/GPT2_M/webnlg_challenge_2017
+INFO: train_data len: 2000
+INFO: Steps(batch) in each Epoch: 500
+loading model pretrained weight.
+INFO: default arg: world_size: 1
+set max_step: 2500
+start to train the model................ 1
+/root/miniconda3/lib/python3.12/site-packages/torch/autograd/graph.py:744: UserWarning: Plan failed with a cudnnException: CUDNN_BACKEND_EXECUTION_PLAN_DESCRIPTOR: cudnnFinalize Descriptor Failed cudnn_status: CUDNN_STATUS_NOT_SUPPORTED (Triggered internally at ../aten/src/ATen/native/cudnn/Conv_v8.cpp:919.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/LoRA/examples/NLG/src/optimizer.py:117: UserWarning: This overload of addcdiv_ is deprecated:
+        addcdiv_(Number value, Tensor tensor1, Tensor tensor2)
+Consider using one of the following signatures instead:
+        addcdiv_(Tensor tensor1, Tensor tensor2, *, Number value) (Triggered internally at ../torch/csrc/utils/python_arg_parser.cpp:1578.)
+  p.data.addcdiv_(-step_size, exp_avg, denom)
+| epoch   1 step      100 |    100 batches | lr 4e-05 | ms/batch 368.61 | loss  6.20 | avg loss  5.35 | ppl 210.03
+| epoch   1 step      200 |    200 batches | lr 8e-05 | ms/batch 366.87 | loss  2.88 | avg loss  3.52 | ppl 33.73
+| epoch   1 step      300 |    300 batches | lr 0.00012 | ms/batch 365.59 | loss  2.29 | avg loss  2.59 | ppl 13.28
+| epoch   1 step      400 |    400 batches | lr 0.00016 | ms/batch 367.64 | loss  2.42 | avg loss  2.35 | ppl 10.51
+| epoch   1 step      500 |    500 batches | lr 0.0002 | ms/batch 367.87 | loss  2.08 | avg loss  2.26 | ppl  9.59
+saving checkpoint ./trained_models/GPT2_M/webnlg_challenge_2017/model.500.pt
+start to train the model................ 2
+| epoch   2 step      600 |    100 batches | lr 0.00019 | ms/batch 369.22 | loss  2.07 | avg loss  2.19 | ppl  8.90
+| epoch   2 step      700 |    200 batches | lr 0.00018 | ms/batch 368.85 | loss  2.05 | avg loss  2.17 | ppl  8.75
+| epoch   2 step      800 |    300 batches | lr 0.00017 | ms/batch 369.37 | loss  2.10 | avg loss  2.12 | ppl  8.35
+| epoch   2 step      900 |    400 batches | lr 0.00016 | ms/batch 369.06 | loss  2.31 | avg loss  2.11 | ppl  8.27
+| epoch   2 step     1000 |    500 batches | lr 0.00015 | ms/batch 369.78 | loss  2.02 | avg loss  2.15 | ppl  8.54
+saving checkpoint ./trained_models/GPT2_M/webnlg_challenge_2017/model.1000.pt
+/root/miniconda3/lib/python3.12/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='none' instead.
+  warnings.warn(warning.format(ret))
+eval samples: 0 loss: tensor(0.8734, device='cuda:0')
+eval samples: 100 loss: tensor(0.9707, device='cuda:0')
+average loss 0.9069928544014693
+----------------------------------------------------------------------------------------------------
+| Eval   1 at step     1000 | time: 16.68s | valid loss  0.91 | valid ppl  2.48 | best ppl  2.48 
+----------------------------------------------------------------------------------------------------
+saving checkpoint ./trained_models/GPT2_M/webnlg_challenge_2017/model.1000.pt
+start to train the model................ 3
+| epoch   3 step     1100 |    100 batches | lr 0.00014 | ms/batch 370.20 | loss  2.06 | avg loss  2.04 | ppl  7.72
+| epoch   3 step     1200 |    200 batches | lr 0.00013 | ms/batch 369.75 | loss  1.95 | avg loss  2.04 | ppl  7.68
+| epoch   3 step     1300 |    300 batches | lr 0.00012 | ms/batch 368.60 | loss  1.93 | avg loss  2.06 | ppl  7.83
+| epoch   3 step     1400 |    400 batches | lr 0.00011 | ms/batch 368.20 | loss  2.21 | avg loss  2.04 | ppl  7.70
+| epoch   3 step     1500 |    500 batches | lr 0.0001 | ms/batch 367.33 | loss  1.90 | avg loss  2.02 | ppl  7.50
+saving checkpoint ./trained_models/GPT2_M/webnlg_challenge_2017/model.1500.pt
+start to train the model................ 4
+| epoch   4 step     1600 |    100 batches | lr 9e-05 | ms/batch 367.95 | loss  1.86 | avg loss  2.00 | ppl  7.40
+| epoch   4 step     1700 |    200 batches | lr 8e-05 | ms/batch 367.22 | loss  1.97 | avg loss  1.99 | ppl  7.28
+| epoch   4 step     1800 |    300 batches | lr 7e-05 | ms/batch 369.01 | loss  1.91 | avg loss  1.99 | ppl  7.29
+| epoch   4 step     1900 |    400 batches | lr 6e-05 | ms/batch 369.32 | loss  1.88 | avg loss  1.99 | ppl  7.31
+| epoch   4 step     2000 |    500 batches | lr 5e-05 | ms/batch 368.78 | loss  1.98 | avg loss  1.96 | ppl  7.08
+saving checkpoint ./trained_models/GPT2_M/webnlg_challenge_2017/model.2000.pt
+eval samples: 0 loss: tensor(0.7597, device='cuda:0')
+eval samples: 100 loss: tensor(0.9792, device='cuda:0')
+average loss 0.9045552183687687
+----------------------------------------------------------------------------------------------------
+| Eval   2 at step     2000 | time: 16.62s | valid loss  0.90 | valid ppl  2.47 | best ppl  2.47 
+----------------------------------------------------------------------------------------------------
+saving checkpoint ./trained_models/GPT2_M/webnlg_challenge_2017/model.2000.pt
+start to train the model................ 5
+| epoch   5 step     2100 |    100 batches | lr 4e-05 | ms/batch 369.48 | loss  1.74 | avg loss  1.97 | ppl  7.16
+| epoch   5 step     2200 |    200 batches | lr 3e-05 | ms/batch 368.88 | loss  2.02 | avg loss  1.95 | ppl  7.01
+| epoch   5 step     2300 |    300 batches | lr 2e-05 | ms/batch 369.19 | loss  1.82 | avg loss  1.93 | ppl  6.88
+| epoch   5 step     2400 |    400 batches | lr 1e-05 | ms/batch 368.30 | loss  1.99 | avg loss  1.94 | ppl  6.97
+| epoch   5 step     2500 |    500 batches | lr 0 | ms/batch 370.37 | loss  2.54 | avg loss  1.94 | ppl  6.93
+saving checkpoint ./trained_models/GPT2_M/webnlg_challenge_2017/model.2500.pt
+----------------------------------------------------------------------------------------------------
+End of training
+cleanup dist ...
+
+real    16m17.113s
+user    16m11.766s
+sys     0m12.945s

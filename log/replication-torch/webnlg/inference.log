@@ -1,0 +1,97 @@
+(base) root@autodl-container-48b1458428-ad21ddd9:~/LoRA/examples/NLG# python -m torch.distributed.launch --nproc_per_node=1 src/gpt2_beam.py \
+    --data ./data/webnlg_challenge_2017/test_400.jsonl \
+    --batch_size 1 \
+    --seq_len 512 \
+    --eval_len 64 \
+    --model_card gpt2.md \
+    --init_checkpoint ./trained_models/GPT2_M/webnlg_challenge_2017/model.2500.pt \
+    --platform local \
+    --lora_dim 4 \
+    --lora_alpha 32 \
+    --beam 10 \
+    --length_penalty 0.8 \
+    --no_repeat_ngram_size 4 \
+    --repetition_penalty 1.0 \
+    --eos_token_id 628 \
+    --work_dir ./trained_models/GPT2_M/webnlg_challenge_2017 \
+    --output_file predict.2500.b10p08r4.jsonl
+/root/miniconda3/lib/python3.12/site-packages/torch/distributed/launch.py:183: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use-env is set by default in torchrun.
+If your script expects `--local-rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+myrank: 0 local_rank: 0 device_count: 1 world_size: 1
+====================================================================================================
+        - platform : local
+        - local_rank : 0
+        - rank : 0
+        - device : cuda:0
+        - world_size : 1
+        - random_seed : 10
+        - data : ./data/webnlg_challenge_2017/test_400.jsonl
+        - batch_size : 1
+        - seq_len : 512
+        - eval_len : 64
+        - min_length : 0
+        - model_card : gpt2.md
+        - init_checkpoint : ./trained_models/GPT2_M/webnlg_challenge_2017/model.2500.pt
+        - lora_dim : 4
+        - lora_alpha : 32
+        - work_dir : ./trained_models/GPT2_M/webnlg_challenge_2017
+        - beam : 10
+        - length_penalty : 0.8
+        - no_repeat_ngram_size : 4
+        - repetition_penalty : 1.0
+        - eos_token_id : [50256, 628]
+        - output_file : predict.2500.b10p08r4.jsonl
+        - dist : <module 'torch.distributed' from '/root/miniconda3/lib/python3.12/site-packages/torch/distributed/__init__.py'>
+====================================================================================================
+Experiment dir : ./trained_models/GPT2_M/webnlg_challenge_2017
+loading model pretrained weight.
+model sampling ...
+inference samples 0
+inference samples 10
+inference samples 20
+inference samples 30
+inference samples 40
+inference samples 50
+inference samples 60
+inference samples 70
+inference samples 80
+inference samples 90
+inference samples 100
+inference samples 110
+inference samples 120
+inference samples 130
+inference samples 140
+inference samples 150
+inference samples 160
+inference samples 170
+inference samples 180
+inference samples 190
+inference samples 200
+inference samples 210
+inference samples 220
+inference samples 230
+inference samples 240
+inference samples 250
+inference samples 260
+inference samples 270
+inference samples 280
+inference samples 290
+inference samples 300
+inference samples 310
+inference samples 320
+inference samples 330
+inference samples 340
+inference samples 350
+inference samples 360
+inference samples 370
+inference samples 380
+inference samples 390
+saving prediction file ./trained_models/GPT2_M/webnlg_challenge_2017/predict.2500.b10p08r4.jsonl
+cleanup dist ...

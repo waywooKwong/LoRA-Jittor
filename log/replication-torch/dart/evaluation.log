@@ -1,0 +1,28 @@
+(base) root@autodl-container-93b9118200-51788ddf:~/LoRA/examples/NLG# cd ./eval/GenerationEval/
+python eval.py \
+    -R data/references_dart/reference \
+    -H data/hypothesis_dart \
+    -nr 6 \
+    -m bleu,meteor,ter 
+cd ../..
+2025-06-30 22:00:00.425096: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1751292000.451413    2088 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1751292000.459671    2088 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1751292000.482743    2088 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751292000.482786    2088 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751292000.482791    2088 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751292000.482803    2088 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-06-30 22:00:00.489144: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+STARTING TO PARSE INPUTS...
+FINISHING TO PARSE INPUTS...
+STARTING TO COMPUTE BLEU...
+FINISHING TO COMPUTE BLEU...
+STARTING TO COMPUTE METEOR...
+FINISHING TO COMPUTE METEOR...
+STARTING TO COMPUTE TER...
+FINISHING TO COMPUTE TER...
+  BLEU    BLEU NLTK    METEOR    TER
+------  -----------  --------  -----
+ 39.85          0.4      0.35   0.51

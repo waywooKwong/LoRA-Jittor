@@ -1,0 +1,121 @@
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/NLG# time bash bash/e2e/peft.sh
+2025-07-07 23:24:32.561012: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-07 23:24:32.576093: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1751901872.594142    6716 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1751901872.599677    6716 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1751901872.614058    6716 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751901872.614094    6716 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751901872.614097    6716 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751901872.614099    6716 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-07-07 23:24:32.618542: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading model: gpt2-medium
+/root/miniconda3/lib/python3.12/site-packages/peft/tuners/lora/layer.py:1803: UserWarning: fan_in_fan_out is set to False but the target module is `Conv1D`. Setting fan_in_fan_out to True.
+  warnings.warn(
+No label_names provided for model class `PeftModelForCausalLM`. Since `PeftModel` hides base models input arguments, if label_names is not given, label_names can't be set automatically within `Trainer`. Note that empty label_names list will be used instead.
+INFO: Start training...
+  0%|                                                                                                        | 0/2500 [00:00<?, ?it/s]`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+{'loss': 4.6967, 'grad_norm': 1.6104655265808105, 'learning_rate': 1.9600000000000002e-05, 'epoch': 0.2}                              
+{'loss': 3.5256, 'grad_norm': 1.8276342153549194, 'learning_rate': 3.960000000000001e-05, 'epoch': 0.4}                               
+{'loss': 1.9547, 'grad_norm': 1.489142656326294, 'learning_rate': 5.96e-05, 'epoch': 0.6}                                             
+{'loss': 1.7369, 'grad_norm': 1.5021922588348389, 'learning_rate': 7.960000000000001e-05, 'epoch': 0.8}                               
+{'loss': 1.5922, 'grad_norm': 1.5139449834823608, 'learning_rate': 9.960000000000001e-05, 'epoch': 1.0}                               
+{'loss': 1.5216, 'grad_norm': 1.4943839311599731, 'learning_rate': 0.00011960000000000001, 'epoch': 1.2}                              
+{'loss': 1.5187, 'grad_norm': 1.653807520866394, 'learning_rate': 0.0001396, 'epoch': 1.4}                                            
+{'loss': 1.5139, 'grad_norm': 1.5332880020141602, 'learning_rate': 0.0001596, 'epoch': 1.6}                                           
+{'loss': 1.4446, 'grad_norm': 1.7694908380508423, 'learning_rate': 0.0001796, 'epoch': 1.8}                                           
+{'loss': 1.4236, 'grad_norm': 1.6051064729690552, 'learning_rate': 0.0001996, 'epoch': 2.0}                                           
+{'loss': 1.373, 'grad_norm': 1.2767736911773682, 'learning_rate': 0.00019510000000000003, 'epoch': 2.2}                               
+{'loss': 1.4196, 'grad_norm': 1.4837769269943237, 'learning_rate': 0.0001901, 'epoch': 2.4}                                           
+{'loss': 1.393, 'grad_norm': 1.6179494857788086, 'learning_rate': 0.0001851, 'epoch': 2.6}                                            
+{'loss': 1.3507, 'grad_norm': 1.3369109630584717, 'learning_rate': 0.00018010000000000001, 'epoch': 2.8}                              
+{'loss': 1.3597, 'grad_norm': 1.5658810138702393, 'learning_rate': 0.0001751, 'epoch': 3.0}                                           
+{'loss': 1.3565, 'grad_norm': 1.4218058586120605, 'learning_rate': 0.00017010000000000001, 'epoch': 3.2}                              
+{'loss': 1.3082, 'grad_norm': 1.1653800010681152, 'learning_rate': 0.0001651, 'epoch': 3.4}                                           
+{'loss': 1.3266, 'grad_norm': 1.5968643426895142, 'learning_rate': 0.00016010000000000002, 'epoch': 3.6}                              
+{'loss': 1.3264, 'grad_norm': 1.2937651872634888, 'learning_rate': 0.0001551, 'epoch': 3.8}                                           
+{'loss': 1.2594, 'grad_norm': 1.51541006565094, 'learning_rate': 0.0001501, 'epoch': 4.0}                                             
+{'eval_loss': 1.1940253973007202, 'eval_runtime': 2.4498, 'eval_samples_per_second': 163.277, 'eval_steps_per_second': 40.819, 'epoch': 4.0}                                                                                                                                
+{'loss': 1.3037, 'grad_norm': 1.386602520942688, 'learning_rate': 0.0001451, 'epoch': 4.2}                                            
+{'loss': 1.2732, 'grad_norm': 1.2959238290786743, 'learning_rate': 0.00014010000000000002, 'epoch': 4.4}                              
+{'loss': 1.2721, 'grad_norm': 1.2926222085952759, 'learning_rate': 0.0001351, 'epoch': 4.6}                                           
+{'loss': 1.2596, 'grad_norm': 1.1999601125717163, 'learning_rate': 0.0001301, 'epoch': 4.8}                                           
+{'loss': 1.2456, 'grad_norm': 1.429975152015686, 'learning_rate': 0.0001251, 'epoch': 5.0}                                            
+{'loss': 1.236, 'grad_norm': 1.5591046810150146, 'learning_rate': 0.00012010000000000002, 'epoch': 5.2}                               
+{'loss': 1.2512, 'grad_norm': 1.3918452262878418, 'learning_rate': 0.0001151, 'epoch': 5.4}                                           
+{'loss': 1.2417, 'grad_norm': 1.4917980432510376, 'learning_rate': 0.0001101, 'epoch': 5.6}                                           
+{'loss': 1.2291, 'grad_norm': 1.5607982873916626, 'learning_rate': 0.0001051, 'epoch': 5.8}                                           
+{'loss': 1.258, 'grad_norm': 1.3638172149658203, 'learning_rate': 0.0001001, 'epoch': 6.0}                                            
+{'loss': 1.2114, 'grad_norm': 1.3875856399536133, 'learning_rate': 9.51e-05, 'epoch': 6.2}                                            
+{'loss': 1.2102, 'grad_norm': 1.361409306526184, 'learning_rate': 9.010000000000001e-05, 'epoch': 6.4}                                
+{'loss': 1.2533, 'grad_norm': 1.4740180969238281, 'learning_rate': 8.510000000000001e-05, 'epoch': 6.6}                               
+{'loss': 1.2247, 'grad_norm': 1.6362775564193726, 'learning_rate': 8.010000000000001e-05, 'epoch': 6.8}                               
+{'loss': 1.1883, 'grad_norm': 1.5977635383605957, 'learning_rate': 7.510000000000001e-05, 'epoch': 7.0}                               
+{'loss': 1.1951, 'grad_norm': 1.1975460052490234, 'learning_rate': 7.01e-05, 'epoch': 7.2}                                            
+{'loss': 1.1727, 'grad_norm': 1.4120644330978394, 'learning_rate': 6.510000000000001e-05, 'epoch': 7.4}                               
+{'loss': 1.2129, 'grad_norm': 1.6017166376113892, 'learning_rate': 6.0100000000000004e-05, 'epoch': 7.6}                              
+{'loss': 1.2125, 'grad_norm': 1.4820655584335327, 'learning_rate': 5.5100000000000004e-05, 'epoch': 7.8}                              
+{'loss': 1.1901, 'grad_norm': 1.6660914421081543, 'learning_rate': 5.0100000000000005e-05, 'epoch': 8.0}                              
+{'eval_loss': 1.14241623878479, 'eval_runtime': 2.4424, 'eval_samples_per_second': 163.773, 'eval_steps_per_second': 40.943, 'epoch': 8.0}                                                                                                                                  
+{'loss': 1.1909, 'grad_norm': 1.4531569480895996, 'learning_rate': 4.5100000000000005e-05, 'epoch': 8.2}                              
+{'loss': 1.2026, 'grad_norm': 1.446873664855957, 'learning_rate': 4.0100000000000006e-05, 'epoch': 8.4}                               
+{'loss': 1.1903, 'grad_norm': 1.3704193830490112, 'learning_rate': 3.51e-05, 'epoch': 8.6}                                            
+{'loss': 1.1421, 'grad_norm': 1.531754732131958, 'learning_rate': 3.01e-05, 'epoch': 8.8}                                             
+ 89%|█████████████████████████████████████████████████████████████████████████ 89%|████████████████████████████████▊    | 2220/2500 [07:09<00:52,  5.36it/s]{'loss': 1.1932, 'grad_norm': 1.2955801486968994, 'learning_rate': 2.51e-05, 'epoch': 9.0}
+{'loss': 1.1421, 'grad_norm': 1.3711336851119995, 'learning_rate': 2.01e-05, 'epoch': 9.2}
+{'loss': 1.1937, 'grad_norm': 1.5468790531158447, 'learning_rate': 1.51e-05, 'epoch': 9.4}
+{'loss': 1.2103, 'grad_norm': 1.5955220460891724, 'learning_rate': 1.0100000000000002e-05, 'epoch': 9.6}
+{'loss': 1.1939, 'grad_norm': 1.4869564771652222, 'learning_rate': 5.1e-06, 'epoch': 9.8}
+{'loss': 1.1256, 'grad_norm': 1.475897192955017, 'learning_rate': 1.0000000000000001e-07, 'epoch': 10.0}                              
+{'train_runtime': 484.4543, 'train_samples_per_second': 82.567, 'train_steps_per_second': 5.16, 'train_loss': 1.416549739074707, 'epoch': 10.0}
+100%|█████████████████████████████████████████████████████████████████████████████████████████████| 2500/2500 [08:04<00:00,  5.16it/s]
+INFO: Training completed. Save Path: ./trained_models_peft/GPT2_M/e2e
+
+real    8m15.618s
+user    8m11.791s
+sys     0m3.964s
+2025-07-07 23:32:47.823693: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-07 23:32:47.847873: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1751902367.876231    8896 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1751902367.885047    8896 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1751902367.906926    8896 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751902367.906966    8896 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751902367.906969    8896 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751902367.906973    8896 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-07-07 23:32:47.913230: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+ 81%|█████████████████████████████████                                     ██████████████████████████████████████                                     █████▉                  | 324/400 [02:                                      81%|█████████████████████████████████                                     ██████████████████████████████████████                                 ██████▏                 | 325/400 [02:                                      82%|█████████████████████████████████            ██████████████████████████████████████                                     ██████▍                 | 326/400 [02:                                      82%|█████████████████████████████████                                     ██████████████████████████████████████                                     ██████▋                 | 327/400 [02:                                      82%|█████████████████████████████████                                     ██████████████████████████████████████                        ██████▉                 | 328/400 [02:                                      82%|█████████████████████████████████   ██████████████████████████████████████                                     ███████▏                | 329/400 [02:                                      82%|█████████████████████████████████                                     ██████████████████████████████████████                                     ███████▍                | 330/400 [02:                                     83%|█████████████████████████████████                                     ██████████████████████████████████████               ███████▌                | 331/400 [02:                                      83%|█████████████████████████████████                                     ██████████████████████████████████████                                     ███████▊                | 332/400 [02:                                      83%|█████████████████████████████████                                     ██████████████████████████████████████                                     ████████                | 333/400 [02:                            84%|██████████████████████████████████████████████████████████████████████ 84%|██████████████████████████████████████████████████████████████████████ 84%|██████████████████████████████████████████████████████████████████████ 84%|██████████████████████████████████████████████████████████████████████ 84%|██████████████████████████████████████████████████████████████████████ 85%|██████████████████████████████████████████████████████████████████████ 85%|██████████████████████████████████████████████████████████████████████ 85%|██████████████████████████████████████████████████████████████████████ 86%|██████████████████████████████████████████████████████████████████████ 86%|██████████████████████████████████████████████████████████████████████ 86%|██████████████████████████████████████████████████████████████████████ 86%|██████████████████████████████████████████████████████████████████████ 86%|██████████████████████████████████████████████████████████████████████ 87%|██████████████████████████████████████████████████████████████████████ 87%|██████████████████████████████████████████████████████████████████████ 87%|██████████████████████████████████████████████████████████████████████ 88%|██████████████████████████████████████████████████████████████████████ 88%|██████████████████████████████████████████████████████████████████████ 88%|██████████████████████████████████████████████████████████████████████ 88%|██████████████████████████████████████████████████████████████████████ 88%|██████████████████████████████████████████████████████████████████████ 89%|██████████████████████████████████████████████████████████████████████ 89%|██████████████████████████████████████████████████████████████████████ 89%|██████████████████████████████████████████████████████████████████████ 90%|██████████████████████████████████████████████████████████████████████ 90%|██████████████████████████████████████████████████████████████████████ 90%|██████████████████████████████████████████████████████████████████████ 90%|██████████████████████████████████████████████████████████████████████ 90%|██████████████████████████████████████████████████████████████████████ 91%|██████████████████████████████████████████████████████████████████████ 91%|██████████████████████████████████████████████████████████████████████ 91%|██████████████████████████████████████████████████████████████████████ 92%|██████████████████████████████████████████████████████████████████████ 92%|██████████████████████████████████████████████████████████████████████ 92%|██████████████████████████████████████████████████████████████████████ 92%|██████████████████████████████████████████████████████████████████████ 92%|██████████████████████████████████████████████████████████████████████ 93%|██████████████████████████████████████████████████████████████████████ 93%|██████████████████████████████████████████████████████████████████████ 93%|██████████████████████████████████████████████████████████████████████ 94%|██████████████████████████████████████████████████████████████████████ 94%|██████████████████████████████████████████████████████████████████████ 94%|██████████████████████████████████████████████████████████████████████ 94%|██████████████████████████████████████████████████████████████████████ 94%|██████████████████████████████████████████████████████████████████████ 95%|██████████████████████████████████████████████████████████████████████ 95%|██████████████████████████████████████████████████████████████████████ 95%|██████████████████████████████████████████████████████████████████████ 96%|██████████████████████████████████████████████████████████████████████ 96%|██████████████████████████████████████████████████████████████████████ 96%|██████████████████████████████████████████████████████████████████████ 96%|██████████████████████████████████████████████████████████████████████ 96%|██████████████████████████████████████████████████████████████████████ 97%|██████████████████████████████████████████████████████████████████████ 97%|██████████████████████████████████████████████████████████████████████ 97%|██████████████████████████████████████████████████████████████████████ 98%|██████████████████████████████████████████████████████████████████████ 98%|██████████████████████████████████████████████████████████████████████ 98%|██████████████████████████████████████████████████████████████████████ 98%|██████████████████████████████████████████████████████████████████████ 98%|██████████████████████████████████████████████████████████████████████ 99%|██████████████████████████████████████████████████████████████████████ 99%|██████████████████████████████████████████████████████████████████████ 99%|██████████████████████████████████████████████████████████████████████100%|██████████████████████████████████████████████████████████████████████100%|██████████████████████████████████████████████████████████████████████100%|██████████████████████████████████████████████████████████████████████100%|███████████████████████████████████████████████████████████████████████████████████████████████| 400/400 [02:37<00:00,  2.54it/s]
+推理完成，已保存到 ./data/e2e/peft_generated.jsonl
+
+real    2m48.345s
+user    2m47.387s
+sys     0m2.821s
+2025-07-07 23:35:35.984148: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-07 23:35:36.000333: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1751902536.020727    9585 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1751902536.026683    9585 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1751902536.041099    9585 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751902536.041135    9585 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751902536.041140    9585 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1751902536.041143    9585 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-07-07 23:35:36.045273: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+[nltk_data] Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+[nltk_data] Downloading package omw-1.4 to /root/nltk_data...
+[nltk_data]   Package omw-1.4 is already up-to-date!
+SCORES:
+==============
+BLEU: 0.1824
+METEOR: 0.4885
+TER: 69.1123
+ROUGE_L: 0.4193
+
+real    11m41.091s
+user    11m15.988s
+sys     0m9.883s

@@ -1,0 +1,179 @@
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/examples/NLG# time python src_jittor/gpt2_ft.py \
+    --train_data ./data/e2e/train_4k.jsonl \
+    --valid_data ./data/e2e/valid_400.jsonl \
+    --train_batch_size 4 \
+    --grad_acc 1 \
+    --valid_batch_size 2 \
+    --seq_len 512 \
+    --model_card gpt2.md \
+    --init_checkpoint ./pretrained_checkpoints/gpt2-medium-pytorch_model_zip.bin \
+    --platform local \
+    --clip 0.0 \
+    --lr 0.0002 \
+    --weight_decay 0.01 \
+    --correct_bias \
+    --adam_beta2 0.999 \
+    --scheduler linear \
+    --warmup_step 500 \
+    --random_seed 110ned_models/GPT2_M/e2e \
+[i 0706 09:16:47.485869 88 compiler.py:956] Jittor(1.3.9.14) src: /root/miniconda3/lib/python3.12/site-packages/jittor
+[i 0706 09:16:47.489797 88 compiler.py:957] g++ at /usr/bin/g++(11.4.0)
+[i 0706 09:16:47.489975 88 compiler.py:958] cache_path: /root/.cache/jittor/jt1.3.9/g++11.4.0/py3.12.2/Linux-5.15.0-1x3d/IntelRXeonRGolxec/a83b/default
+[i 0706 09:16:47.492786 88 __init__.py:412] Found nvcc(12.1.105) at /usr/local/cuda/bin/nvcc.
+[i 0706 09:16:47.495762 88 __init__.py:412] Found addr2line(2.38) at /usr/bin/addr2line.
+[i 0706 09:16:47.790653 88 compiler.py:1013] cuda key:cu12.1.105_sm_86
+[i 0706 09:16:48.197297 88 __init__.py:227] Total mem: 503.52GB, using 16 procs for compiling.
+[i 0706 09:16:48.305526 88 jit_compiler.cc:28] Load cc_path: /usr/bin/g++
+[i 0706 09:16:48.579034 88 init.cc:63] Found cuda archs: [86,]
+[i 0706 09:16:50.599644 88 cuda_flags.cc:55] CUDA enabled.
+====================================================================================================
+        - platform : local
+        - local_rank : 0
+        - rank : 0
+        - device : 0
+        - world_size : 0
+        - random_seed : 110
+        - lr : 0.0002
+        - weight_decay : 0.01
+        - correct_bias : True
+        - adam_epislon : 1e-06
+        - no_decay_bias : False
+        - adam_beta1 : 0.9
+        - adam_beta2 : 0.999
+        - scheduler : linear
+        - max_step : None
+        - max_epoch : 5
+        - warmup_step : 500
+        - i_steps : 0
+        - i_lrs : 0.00025
+        - train_data : ./data/e2e/train_4k.jsonl
+        - valid_data : ./data/e2e/valid_400.jsonl
+        - train_batch_size : 4
+        - valid_batch_size : 2
+        - grad_acc : 1
+        - clip : 0.0
+        - seq_len : 512
+        - model_card : gpt2.md
+        - init_checkpoint : ./pretrained_checkpoints/gpt2-medium-pytorch_model_zip.bin
+        - fp16 : False
+        - log_interval : 100
+        - eval_interval : 1000
+        - save_interval : 1000
+        - work_dir : ./trained_models_jittor/GPT2_M/e2e
+        - lora_dim : 4
+        - lora_alpha : 32
+        - obj : clm
+        - lora_dropout : 0.1
+        - label_smooth : 0.1
+        - roll_interval : -1
+        - roll_lr : 1e-05
+        - roll_step : 100
+        - eval_epoch : 1
+====================================================================================================
+Experiment dir : ./trained_models_jittor/GPT2_M/e2e
+loading model pretrained weight.
+set max_step: 5000
+start to train the model................ 1
+/root/LoRA/examples/NLG/src_jittor/gpt2_ft.py:214: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+  avg_lm_loss.update(float(_lm_loss.data))
+| epoch   1 step      100 |    100 batches | lr 4e-05 | ms/batch 544.36 | loss  4.56 | avg loss  5.60 | ppl 270.78
+| epoch   1 step      200 |    200 batches | lr 8e-05 | ms/batch 541.69 | loss  3.26 | avg loss  3.80 | ppl 44.50
+| epoch   1 step      300 |    300 batches | lr 0.00012 | ms/batch 542.20 | loss  2.94 | avg loss  3.16 | ppl 23.64
+| epoch   1 step      400 |    400 batches | lr 0.00016 | ms/batch 542.96 | loss  2.51 | avg loss  2.97 | ppl 19.58
+| epoch   1 step      500 |    500 batches | lr 0.0002 | ms/batch 543.07 | loss  3.73 | avg loss  2.93 | ppl 18.68
+| epoch   1 step      600 |    600 batches | lr 0.000196 | ms/batch 544.30 | loss  2.74 | avg loss  2.88 | ppl 17.80
+| epoch   1 step      700 |    700 batches | lr 0.000191 | ms/batch 542.84 | loss  3.09 | avg loss  2.87 | ppl 17.68
+| epoch   1 step      800 |    800 batches | lr 0.000187 | ms/batch 543.30 | loss  2.95 | avg loss  2.84 | ppl 17.18
+| epoch   1 step      900 |    900 batches | lr 0.000182 | ms/batch 543.63 | loss  3.29 | avg loss  2.88 | ppl 17.74
+| epoch   1 step     1000 |   1000 batches | lr 0.000178 | ms/batch 543.98 | loss  2.82 | avg loss  2.77 | ppl 15.97
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.1000.pt
+eval samples: 0 loss: jt.Var([1.3142258], dtype=float32)
+eval samples: 100 loss: jt.Var([1.2512419], dtype=float32)
+average loss 1.4265571147203446
+----------------------------------------------------------------------------------------------------
+| Eval   1 at step     1000 | time: 25.58s | valid loss  1.43 | valid ppl  4.16 | best ppl  4.16 
+----------------------------------------------------------------------------------------------------
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.1000.pt
+start to train the model................ 2
+| epoch   2 step     1100 |    100 batches | lr 0.000173 | ms/batch 538.89 | loss  2.72 | avg loss  2.79 | ppl 16.22
+| epoch   2 step     1200 |    200 batches | lr 0.000169 | ms/batch 541.62 | loss  2.86 | avg loss  2.78 | ppl 16.10
+| epoch   2 step     1300 |    300 batches | lr 0.000164 | ms/batch 542.34 | loss  2.58 | avg loss  2.79 | ppl 16.29
+| epoch   2 step     1400 |    400 batches | lr 0.00016 | ms/batch 541.46 | loss  2.32 | avg loss  2.72 | ppl 15.22
+| epoch   2 step     1500 |    500 batches | lr 0.000156 | ms/batch 541.74 | loss  3.49 | avg loss  2.74 | ppl 15.42
+| epoch   2 step     1600 |    600 batches | lr 0.000151 | ms/batch 542.29 | loss  2.61 | avg loss  2.71 | ppl 14.98
+| epoch   2 step     1700 |    700 batches | lr 0.000147 | ms/batch 541.13 | loss  2.97 | avg loss  2.73 | ppl 15.30
+| epoch   2 step     1800 |    800 batches | lr 0.000142 | ms/batch 541.91 | loss  2.75 | avg loss  2.72 | ppl 15.20
+| epoch   2 step     1900 |    900 batches | lr 0.000138 | ms/batch 542.42 | loss  3.18 | avg loss  2.76 | ppl 15.77
+| epoch   2 step     2000 |   1000 batches | lr 0.000133 | ms/batch 543.08 | loss  2.70 | avg loss  2.67 | ppl 14.42
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.2000.pt
+eval samples: 0 loss: jt.Var([1.1920555], dtype=float32)
+eval samples: 100 loss: jt.Var([1.1314952], dtype=float32)
+average loss 1.3584415102005005
+----------------------------------------------------------------------------------------------------
+| Eval   2 at step     2000 | time: 25.36s | valid loss  1.36 | valid ppl  3.89 | best ppl  3.89 
+----------------------------------------------------------------------------------------------------
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.2000.pt
+start to train the model................ 3
+| epoch   3 step     2100 |    100 batches | lr 0.000129 | ms/batch 540.38 | loss  2.63 | avg loss  2.69 | ppl 14.74
+| epoch   3 step     2200 |    200 batches | lr 0.000124 | ms/batch 543.09 | loss  2.77 | avg loss  2.69 | ppl 14.71
+| epoch   3 step     2300 |    300 batches | lr 0.00012 | ms/batch 542.09 | loss  2.50 | avg loss  2.71 | ppl 15.04
+| epoch   3 step     2400 |    400 batches | lr 0.000116 | ms/batch 542.32 | loss  2.27 | avg loss  2.65 | ppl 14.12
+| epoch   3 step     2500 |    500 batches | lr 0.000111 | ms/batch 542.65 | loss  3.34 | avg loss  2.67 | ppl 14.47
+| epoch   3 step     2600 |    600 batches | lr 0.000107 | ms/batch 542.79 | loss  2.56 | avg loss  2.64 | ppl 14.06
+| epoch   3 step     2700 |    700 batches | lr 0.000102 | ms/batch 542.36 | loss  2.91 | avg loss  2.67 | ppl 14.43
+| epoch   3 step     2800 |    800 batches | lr 9.78e-05 | ms/batch 542.78 | loss  2.63 | avg loss  2.66 | ppl 14.35
+| epoch   3 step     2900 |    900 batches | lr 9.33e-05 | ms/batch 542.93 | loss  3.12 | avg loss  2.70 | ppl 14.93
+| epoch   3 step     3000 |   1000 batches | lr 8.89e-05 | ms/batch 542.24 | loss  2.63 | avg loss  2.62 | ppl 13.68
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.3000.pt
+eval samples: 0 loss: jt.Var([1.149788], dtype=float32)
+eval samples: 100 loss: jt.Var([1.005711], dtype=float32)
+average loss 1.3212216320633887
+----------------------------------------------------------------------------------------------------
+| Eval   3 at step     3000 | time: 25.37s | valid loss  1.32 | valid ppl  3.75 | best ppl  3.75 
+----------------------------------------------------------------------------------------------------
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.3000.pt
+start to train the model................ 4
+| epoch   4 step     3100 |    100 batches | lr 8.44e-05 | ms/batch 540.05 | loss  2.58 | avg loss  2.64 | ppl 14.07
+| epoch   4 step     3200 |    200 batches | lr 8e-05 | ms/batch 542.77 | loss  2.70 | avg loss  2.64 | ppl 13.96
+| epoch   4 step     3300 |    300 batches | lr 7.56e-05 | ms/batch 543.07 | loss  2.47 | avg loss  2.66 | ppl 14.33
+| epoch   4 step     3400 |    400 batches | lr 7.11e-05 | ms/batch 543.46 | loss  2.23 | avg loss  2.60 | ppl 13.49
+| epoch   4 step     3500 |    500 batches | lr 6.67e-05 | ms/batch 543.06 | loss  3.26 | avg loss  2.63 | ppl 13.88
+| epoch   4 step     3600 |    600 batches | lr 6.22e-05 | ms/batch 543.27 | loss  2.55 | avg loss  2.60 | ppl 13.49
+| epoch   4 step     3700 |    700 batches | lr 5.78e-05 | ms/batch 541.77 | loss  2.87 | avg loss  2.63 | ppl 13.86
+| epoch   4 step     3800 |    800 batches | lr 5.33e-05 | ms/batch 541.64 | loss  2.57 | avg loss  2.63 | ppl 13.82
+| epoch   4 step     3900 |    900 batches | lr 4.89e-05 | ms/batch 541.88 | loss  3.07 | avg loss  2.66 | ppl 14.36
+| epoch   4 step     4000 |   1000 batches | lr 4.44e-05 | ms/batch 541.91 | loss  2.58 | avg loss  2.58 | ppl 13.17
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.4000.pt
+eval samples: 0 loss: jt.Var([1.1307153], dtype=float32)
+eval samples: 100 loss: jt.Var([0.9325571], dtype=float32)
+average loss 1.3070575627684593
+----------------------------------------------------------------------------------------------------
+| Eval   4 at step     4000 | time: 25.38s | valid loss  1.31 | valid ppl  3.70 | best ppl  3.70 
+----------------------------------------------------------------------------------------------------
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.4000.pt
+start to train the model................ 5
+| epoch   5 step     4100 |    100 batches | lr 4e-05 | ms/batch 539.02 | loss  2.57 | avg loss  2.61 | ppl 13.57
+| epoch   5 step     4200 |    200 batches | lr 3.56e-05 | ms/batch 542.49 | loss  2.68 | avg loss  2.60 | ppl 13.47
+| epoch   5 step     4300 |    300 batches | lr 3.11e-05 | ms/batch 542.02 | loss  2.45 | avg loss  2.63 | ppl 13.82
+| epoch   5 step     4400 |    400 batches | lr 2.67e-05 | ms/batch 542.05 | loss  2.21 | avg loss  2.57 | ppl 13.05
+| epoch   5 step     4500 |    500 batches | lr 2.22e-05 | ms/batch 542.45 | loss  3.20 | avg loss  2.60 | ppl 13.46
+| epoch   5 step     4600 |    600 batches | lr 1.78e-05 | ms/batch 542.80 | loss  2.52 | avg loss  2.57 | ppl 13.07
+| epoch   5 step     4700 |    700 batches | lr 1.33e-05 | ms/batch 543.07 | loss  2.87 | avg loss  2.60 | ppl 13.50
+| epoch   5 step     4800 |    800 batches | lr 8.89e-06 | ms/batch 543.49 | loss  2.54 | avg loss  2.60 | ppl 13.45
+| epoch   5 step     4900 |    900 batches | lr 4.44e-06 | ms/batch 542.32 | loss  3.03 | avg loss  2.64 | ppl 13.97
+| epoch   5 step     5000 |   1000 batches | lr 0 | ms/batch 542.69 | loss  2.54 | avg loss  2.55 | ppl 12.82
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.5000.pt
+eval samples: 0 loss: jt.Var([1.1309274], dtype=float32)
+eval samples: 100 loss: jt.Var([0.91277575], dtype=float32)
+average loss 1.2925845849514008
+----------------------------------------------------------------------------------------------------
+| Eval   5 at step     5000 | time: 25.39s | valid loss  1.29 | valid ppl  3.64 | best ppl  3.64 
+----------------------------------------------------------------------------------------------------
+saving checkpoint ./trained_models_jittor/GPT2_M/e2e/model.5000.pt
+----------------------------------------------------------------------------------------------------
+End of training
+cleanup dist ...
+
+real    47m52.662s
+user    45m10.529s
+sys     2m47.329s

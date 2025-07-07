@@ -1,0 +1,121 @@
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/examples/NLG# time python  src_jittor/gpt2_beam.py \
+    --data ./data/e2e/test_400.jsonl \
+    --batch_size 1 \
+    --seq_len 512 \
+    --eval_len 64 \
+    --model_card gpt2.md \
+    --init_checkpoint ./trained_models_jittor/GPT2_M/e2e/model.5000.pt \
+    --platform local \
+    --lora_dim 4 \
+    --lora_alpha 32 \
+    --beam 10 \
+    --length_penalty 0.8 \
+    --no_repeat_ngram_size 4 \
+    --repetition_penalty 1.0 \
+    --eos_token_id 628 \
+    --work_dir ./trained_models_jittor/GPT2_M/e2e \
+    --output_file predict.5000.b10p08r4.jsonl
+[i 0706 10:26:54.528903 48 compiler.py:956] Jittor(1.3.9.14) src: /root/miniconda3/lib/python3.12/site-packages/jittor
+[i 0706 10:26:54.533405 48 compiler.py:957] g++ at /usr/bin/g++(11.4.0)
+[i 0706 10:26:54.533556 48 compiler.py:958] cache_path: /root/.cache/jittor/jt1.3.9/g++11.4.0/py3.12.2/Linux-5.15.0-1x3d/IntelRXeonRGolxec/a83b/default
+[i 0706 10:26:54.537670 48 __init__.py:412] Found nvcc(12.1.105) at /usr/local/cuda/bin/nvcc.
+[i 0706 10:26:54.541217 48 __init__.py:412] Found addr2line(2.38) at /usr/bin/addr2line.
+[i 0706 10:26:54.821520 48 compiler.py:1013] cuda key:cu12.1.105_sm_86
+[i 0706 10:26:55.368553 48 __init__.py:227] Total mem: 503.52GB, using 16 procs for compiling.
+[i 0706 10:26:55.481109 48 jit_compiler.cc:28] Load cc_path: /usr/bin/g++
+[i 0706 10:26:55.750129 48 init.cc:63] Found cuda archs: [86,]
+Traceback (most recent call last):
+  File "/root/LoRA/examples/NLG/src_jittor/gpt2_beam.py", line 89, in <module>
+    def _reorder_cache(past: Tuple, beam_idx: Var) -> Tuple[Any, ...]:
+                                                            ^^^
+NameError: name 'Any' is not defined. Did you mean: 'any'?
+
+real    0m3.767s
+user    0m3.253s
+sys     0m2.569s
+root@autodl-container-ac0a41b2f7-ea94078c:~/LoRA/examples/NLG# time python  src_jittor/gpt2_beam.py     --data ./data/e2e/test_400.jsonl     --batch_size 1     --seq_len 512     --eval_len 64     --model_card gpt2.md     --init_checkpoint ./trained_models_jittor_jittor/GPT2_M/e2e/model.5000.pt     --platform local     --lora_dim 4     --lora_alpha 32     --beam 10     --length_penalty 0.8     --no_repeat_ngram_size 4     --repetition_penalty 1.0     --eos_token_id 628     --work_dir ./trained_models_jittor_jittor/GPT2_M/e2e     --output_file predict.5000.b10p08r4.jsonl
+[i 0706 10:27:30.871532 92 compiler.py:956] Jittor(1.3.9.14) src: /root/miniconda3/lib/python3.12/site-packages/jittor
+[i 0706 10:27:30.874917 92 compiler.py:957] g++ at /usr/bin/g++(11.4.0)
+[i 0706 10:27:30.875066 92 compiler.py:958] cache_path: /root/.cache/jittor/jt1.3.9/g++11.4.0/py3.12.2/Linux-5.15.0-1x3d/IntelRXeonRGolxec/a83b/default
+[i 0706 10:27:30.880444 92 __init__.py:412] Found nvcc(12.1.105) at /usr/local/cuda/bin/nvcc.
+[i 0706 10:27:30.885228 92 __init__.py:412] Found addr2line(2.38) at /usr/bin/addr2line.
+[i 0706 10:27:31.193457 92 compiler.py:1013] cuda key:cu12.1.105_sm_86
+[i 0706 10:27:31.739462 92 __init__.py:227] Total mem: 503.52GB, using 16 procs for compiling.
+[i 0706 10:27:31.869385 92 jit_compiler.cc:28] Load cc_path: /usr/bin/g++
+[i 0706 10:27:32.162742 92 init.cc:63] Found cuda archs: [86,]
+====================================================================================================
+        - platform : local
+        - local_rank : 0
+        - rank : 0
+        - device : 0
+        - world_size : 0
+        - random_seed : 10
+        - data : ./data/e2e/test_400.jsonl
+        - batch_size : 1
+        - seq_len : 512
+        - eval_len : 64
+        - min_length : 0
+        - model_card : gpt2.md
+        - init_checkpoint : ./trained_models_jittor/GPT2_M/e2e/model.5000.pt
+        - lora_dim : 4
+        - lora_alpha : 32
+        - work_dir : ./trained_models_jittor/GPT2_M/e2e
+        - beam : 10
+        - length_penalty : 0.8
+        - no_repeat_ngram_size : 4
+        - repetition_penalty : 1.0
+        - eos_token_id : [50256, 628]
+        - output_file : predict.5000.b10p08r4.jsonl
+====================================================================================================
+Experiment dir : ./trained_models_jittor/GPT2_M/e2e
+loading model pretrained weight.
+[i 0706 10:27:37.183971 92 cuda_flags.cc:55] CUDA enabled.
+model sampling ...
+
+Compiling Operators(20/20) used: 5.31s eta:    0s 
+inference samples 0
+inference samples 10
+inference samples 20
+inference samples 30
+inference samples 40
+inference samples 50
+inference samples 60
+inference samples 70
+inference samples 80
+inference samples 90
+inference samples 100
+inference samples 110
+inference samples 120
+inference samples 130
+inference samples 140
+inference samples 150
+inference samples 160
+inference samples 170
+inference samples 180
+inference samples 190
+inference samples 200
+inference samples 210
+inference samples 220
+inference samples 230
+inference samples 240
+inference samples 250
+inference samples 260
+inference samples 270
+inference samples 280
+inference samples 290
+inference samples 300
+inference samples 310
+inference samples 320
+inference samples 330
+inference samples 340
+inference samples 350
+inference samples 360
+inference samples 370
+inference samples 380
+inference samples 390
+saving prediction file ./trained_models_jittor/GPT2_M/e2e/predict.5000.b10p08r4.jsonl
+cleanup dist ...
+
+real    24m56.895s
+user    24m53.517s
+sys     0m6.594s
