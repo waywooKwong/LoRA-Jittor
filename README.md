@@ -1,9 +1,9 @@
 # LoRA Replication & Jittor Refactor
 
-> **LoRA: Low-Rank Adaptation of Large Language Models** `<br>`
-> *Edward J. Hu\*, Yelong Shen\*, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, Weizhu Chen* `<br>`
-> Paper: https://arxiv.org/abs/2106.09685 `<br>`
-> Github: https://github.com/microsoft/LoRA `<br>`
+> **LoRA: Low-Rank Adaptation of Large Language Models** <br>
+> *Edward J. Hu\*, Yelong Shen\*, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, Weizhu Chen* <br>
+> Paper: https://arxiv.org/abs/2106.09685 <br>
+> Github: https://github.com/microsoft/LoRA <br>
 
 LoRA 通过秩（rank）分解矩阵来减少可训练参数的数量，同时冻结原始权重。
 
@@ -414,14 +414,14 @@ CIDEr: 3.1612
 
 观察到整体性能保持一致，Jittor的实验性能略好于torch，bias在2%左右。
 
-<p>
-<img src="figure/sheet/d1-e2e.png" style="width:600; display: block; margin: 0 auto;">
+<p align="center">
+<img src="figure/sheet/d1-e2e.png" width=600>
 </p>
 
 绘制图表，更直观展示上述表格中的性能对比。
 
-<p>
-<img src="figure/compare/d1-e2e.png" style="width:400; display: block; margin: 0 auto;">
+<p align="center">
+<img src="figure/compare/d1-e2e.png" width=600>
 </p>
 
 ### dataset2: webnlg
@@ -448,14 +448,14 @@ CIDEr: 3.1612
 
 运行评价指标函数，对齐性能。观察到整体性能保持一致，Jittor的实验性能略差于torch，bias在3%左右。
 
-<p>
-<img src="figure/sheet/d2-webnlg.png" style="width:600; display: block; margin: 0 auto;">
+<p align="center">
+<img src="figure/sheet/d2-webnlg.png" width=600>
 </p>
 
 绘制图表，更直观展示上述表格中的性能对比。
 
-<p>
-<img src="figure/compare/d2-webnlg.png" style="width:400; display: block; margin: 0 auto;">
+<p align="center">
+<img src="figure/compare/d2-webnlg.png" width=600>
 </p>
 
 ### dataset3: dart
@@ -480,14 +480,14 @@ CIDEr: 3.1612
 
 运行评价指标函数，对齐性能。观察到整体性能保持一致，Jittor的实验性能略差于torch，bias在3%左右。
 
-<p>
-<img src="figure/sheet/d3-dart.png" style="width:600; display: block; margin: 0 auto;">
+<p align="center">
+<img src="figure/sheet/d3-dart.png" width=600>
 </p>
 
 绘制图表，更直观展示上述表格中的性能对比。
 
-<p>
-<img src="figure/compare/d3-dart.png" style="width:400; display: block; margin: 0 auto;">
+<p align="center">
+<img src="figure/compare/d3-dart.png" width=600>
 </p>
 
 ### Summary
