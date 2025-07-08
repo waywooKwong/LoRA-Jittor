@@ -524,9 +524,10 @@ CIDEr: 3.1612
 
 `PROBLEM: 但是使用 Jittor 后同样参数运行，出现 OOM 的报错。`
 
-<p>
-<img src="figure/sheet/gpu_utilization.png" style="width:600; display: block; margin: 0 auto;">
+<p align="center">
+<img src="figure/sheet/gpu_utilization.png" width=600>
 </p>
+
 
 下面绘制图表，更直观展示上述表格内容。
 
@@ -545,14 +546,14 @@ CIDEr: 3.1612
 
 下述表格记录以分钟(min)为单位的训练、推理运行时间，出于简便，略去了秒的单位，但在log中可以找到详细的时间记录。
 
-<p>
-<img src="figure/sheet/runtime.png" style="width:600; display: block; margin: 0 auto;">
+<p align="center">
+<img src="figure/sheet/runtime.png" width="600" >
 </p>
 
 下面绘制图表，更直观展示上述表格内容。
 
-<p>
-<img src="figure/compare/runtime.png" style="width:600; display: block; margin: 0 auto;">
+<p align="center">
+<img src="figure/compare/runtime.png" width="600">
 </p>
 
 直观观察到，在本仓库的复现实验的实际表现中，Jittor 的运行效率要低于 torch。
@@ -600,20 +601,12 @@ Debug:
 1. jt.load 内部调用了 safeunpickle，它尝试用 load_pytorch 加载 PyTorch 的 checkpoint。
 2. load_pytorch 把 *.bin 文件当作一个 Zip 文件 来读（底层用 jt.ZipFile），因为 Jittor 的 PyTorch 兼容模块默认认为这是一个 .zip 格式的权重文件（类似 .pt / .pth 有时是 zip 存档）。
 
-```
+运行 `/NLG/model_process.py` 转换生成 xxx_zip.bin 进行训练。
+
+```python
 import torch
-from transformers import GPT2LMHeadModel
-
-# 加载同结构模型
-model = GPT2LMHeadModel.from_pretrained("gpt2-medium")
-
-# 加载参数
-state_dict = torch.load("gpt2-medium-pytorch_model.bin", map_location="cpu")
-model.load_state_dict(state_dict)
-model.eval()
-
-scripted_model = torch.jit.script(model)
-scripted_model.save("gpt2-medium-pytorch_model_zip.bin")
+state_dict = torch.load('gpt2-medium-pytorch_model.bin', map_location='cpu')
+torch.save(state_dict, 'gpt2-medium-pytorch_model_zip.bin', _use_new_zipfile_serialization=True)
 ```
 
 ### 3. 新版本 torch 参数兼容
