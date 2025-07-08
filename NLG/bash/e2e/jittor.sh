@@ -54,4 +54,4 @@ python src_jittor/gpt2_decode.py \
     --output_pred_file e2e_pred.txt
 
 # evaluate
-time python eval/e2e/measure_scores.py e2e_ref.txt e2e_pred.txt 
+python eval/e2e/measure_scores.py e2e_ref.txt e2e_pred.txt 
