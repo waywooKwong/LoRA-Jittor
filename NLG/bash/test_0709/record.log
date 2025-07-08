@@ -1,0 +1,4 @@
+for 0709 实际演示，小样本，原数据规模的 1/200
+
+train: 3min
+inference: 2min

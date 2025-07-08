@@ -108,6 +108,7 @@ LoRA 通过秩（rank）分解矩阵来减少可训练参数的数量，同时�
 
 AutoDL 租用云服务器（推荐内蒙B区，3090资源充足）
 
+* Jittor 1.3.9.14
 * PyTorch 2.3.0 + Python 3.12(ubuntu22.04) + CUDA 12.1
 * GPU RTX 3090(24GB) * 1
 * CPU 14 vCPU Intel(R) Xeon(R) Gold 6330 CPU @ 2.00GHz
@@ -162,6 +163,7 @@ Install dependencies (recommand virtual environment)
 ```
 sudo apt-get update
 sudo apt-get install -y default-jre // 安装 Java
+sudo apt-get install -y libxml-twig-perl // 运行 eval 可能出现 perl 缺失
 ···
 (activate your virtual environment)
 ···

@@ -20,6 +20,11 @@ examples
 NLG/eval/GenerationEval/
 NLG/eval/e2e/
 
+# 250708: 
+e2e_pred.txt
+e2e_ref.txt
+# /NLG/bash/test_0709/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
