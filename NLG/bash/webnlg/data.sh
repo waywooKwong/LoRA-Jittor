@@ -1,4 +1,4 @@
-# 缩小为原来的 10 倍
+# 缩小为原来的 1/10 
 head -n 2000 ./data/webnlg_challenge_2017/train.jsonl > ./data/webnlg_challenge_2017/train_2k.jsonl
 head -n 400 ./data/webnlg_challenge_2017/valid.jsonl > ./data/webnlg_challenge_2017/valid_400.jsonl
 

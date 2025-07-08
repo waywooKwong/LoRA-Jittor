@@ -1,4 +1,4 @@
-# 缩小为原来的 10 倍
+# 缩小为原来的 1/10
 head -n 4000 ./data/e2e/train.jsonl > ./data/e2e/train_4k.jsonl
 head -n 400 ./data/e2e/valid.jsonl > ./data/e2e/valid_400.jsonl
 

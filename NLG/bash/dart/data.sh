@@ -1,4 +1,4 @@
-# 缩小10倍
+# 缩小 1/10
 head -n 5000 ./data/dart/train.jsonl > ./data/dart/train_5k.jsonl
 head -n 600 ./data/dart//valid.jsonl > ./data/dart/valid_600.jsonl
 
